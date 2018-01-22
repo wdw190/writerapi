@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<title>Hello Spring Security</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="/css/main.css" th:href="@{/css/main.css}" />
+<!-- jQuery -->
+<script src="../home/vendor/jquery/jquery.min.js"
+	th:src="@{/home/vendor/jquery/jquery.min.js}"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		alert("haha");
+
+		$('#triggerformsubmitlogout').click(function() {
+
+			$('#submit').trigger("click");
+			return false;
+
+		});
+
+	});
+</script>
+</head>
+<body>
+	<h1>TODO Secure this</h1>
+	<p>We would like to secure this page</p>
+	<p>
+		<a href="/index" th:href="@{/index}">Back to home page</a>
+	</p>
+
+	<p>
+		<a id="triggerformsubmitlogout" href="#">triggerformsubmitlogout</a>
+	</p>
+	<p sec:authorize="isAuthenticated()">
+		Logged in user: <span sec:authentication="name"></span> | Roles: <span
+			sec:authentication="principal.authorities"></span>
+	<div style="display: none;">
+		<form action="#" th:action="@{/logout}" method="post">
+			<input type="submit" value="Logout" id="submit" />
+		</form>
+	</div>
+	</p>
+
+
+
+</body>
+</html>

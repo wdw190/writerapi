@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright 2015-2016 the original author or authors. Licensed under the 
+	Apache License, Version 2.0 (the "License"); you may not use this file except 
+	in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sound.battery.mybatis.mapper.BatteryParamMapper">
+
+	<resultMap id="BatteryParamMResult" type="com.sound.battery.mybatis.model.BatteryParamM">
+
+
+
+		<result property="id" column="id" />
+		<result property="xxh" column="xxh" />
+		<result property="cpbh" column="cpbh" />
+		<result property="dm" column="dm" />
+		<result property="cbs1" column="cbs1" />
+		<result property="cbs2" column="cbs2" />
+		<result property="cbs3" column="cbs3" />
+		<result property="cbs4" column="cbs4" />
+		<result property="dtdxbcdl" column="dtdxbcdl" />
+		<result property="dtdxsjdl" column="dtdxsjdl" />
+		<result property="dtdxgzdy" column="dtdxgzdy" />
+		<result property="dxdl" column="dxdl" />
+		<result property="sjdl" column="sjdl" />
+		<result property="zlinptc" column="zlinptc" />
+		<result property="zlexptc" column="zlexptc" />
+		<result property="dxnlmdinptc" column="dxnlmdinptc" />
+		<result property="dxnlmdexptc" column="dxnlmdexptc" />
+		<result property="sjnlmdinptc" column="sjnlmdinptc" />
+		<result property="sjnlmdexptc" column="sjnlmdexptc" />
+		<result property="xtrl" column="xtrl" />
+		<result property="xtdy" column="xtdy" />
+		<result property="bzxczxl" column="bzxczxl" />
+		<result property="bzxczxlexptc" column="bzxczxlexptc" />
+
+		<result property="cltx" column="cltx" />
+		<result property="zdcc" column="zdcc" />
+		<result property="fsfcdj" column="fsfcdj" />
+
+
+	</resultMap>
+
+	<resultMap type="com.sound.battery.mybatis.model.BatteryXXH"
+		id="xxhResultMap">
+		<result property="xxh" column="xxh" />
+	</resultMap>
+
+	<resultMap type="com.sound.battery.mybatis.model.BatteryCPBH"
+		id="cpbhResultMap">
+		<result property="cpbh" column="cpbh" />
+	</resultMap>
+
+	<resultMap type="com.sound.battery.mybatis.model.BatteryDM"
+		id="dmResultMap">
+		<result property="dm" column="dm" />
+	</resultMap>
+
+
+
+	<select id="queryByAnyCondition" parameterType="com.sound.model.BatteryParamRequirementM"
+		resultMap="BatteryParamMResult">
+		SELECT id,
+		xxh,
+		cpbh,
+		dm,
+		cbs1,
+		cbs2,
+		cbs3,
+		cbs4,
+		dtdxbcdl,
+		dtdxsjdl,
+		dtdxgzdy,
+		dxdl,
+		sjdl,
+		zlinptc,
+		zlexptc,
+		dxnlmdinptc,
+		dxnlmdexptc,
+		sjnlmdinptc,
+		sjnlmdexptc,
+		xtrl,
+		xtdy,
+		bzxczxl,bzxczxlexptc,cltx,zdcc,fsfcdj
+		FROM
+		tb_technology_parameter
+
+		<where>
+			<if test=" xxh != null and xxh != '' "> <![CDATA[ xxh = #{xxh} ]]>
+			</if>
+
+			<if test=" cpbh != null and cpbh != '' "> <![CDATA[ and cpbh = #{cpbh}  ]]>
+			</if>
+
+			<if test=" dm != null and dm != '' "> <![CDATA[ and  dm = #{dm} ]]>
+			</if>
+
+			<if test=" 1 == 1 "><![CDATA[ and  deleteflag = 0 ]]></if>
+
+		</where>
+
+
+	</select>
+
+	<!-- <select id="queryById" parameterType="String" resultMap="BatteryConfigMResult"> 
+		SELECT id, axcs, bxcs, bcdl, dypt, bcrl, dxzhfs1, dxzhfs2, dxzhfs3, dxzhfs4, 
+		xtzc, xtzb, xtxs, sycxcode, sycxdesc, dxnlmd, axzl, bxzl FROM tb_systtem_config 
+		where id = #{id} </select> -->
+
+	<select id="queryBatteryParamById" parameterType="String"
+		resultMap="BatteryParamMResult">
+		SELECT id,
+		xxh,
+		cpbh,
+		dm,
+		cbs1,
+		cbs2,
+		cbs3,
+		cbs4,
+		dtdxbcdl,
+		dtdxsjdl,
+		dtdxgzdy,
+		dxdl,
+		sjdl,
+		zlinptc,
+		zlexptc,
+		dxnlmdinptc,
+		dxnlmdexptc,
+		sjnlmdinptc,
+		sjnlmdexptc,
+		xtrl,
+		xtdy,
+		bzxczxl,bzxczxlexptc,cltx,zdcc,fsfcdj
+		FROM
+		tb_technology_parameter
+
+		where
+		id = #{id}
+
+
+	</select>
+	
+		<select id="queryBatteryParamByDm" parameterType="String"
+		resultMap="BatteryParamMResult">
+		SELECT id,
+		xxh,
+		cpbh,
+		dm,
+		cbs1,
+		cbs2,
+		cbs3,
+		cbs4,
+		dtdxbcdl,
+		dtdxsjdl,
+		dtdxgzdy,
+		dxdl,
+		sjdl,
+		zlinptc,
+		zlexptc,
+		dxnlmdinptc,
+		dxnlmdexptc,
+		sjnlmdinptc,
+		sjnlmdexptc,
+		xtrl,
+		xtdy,
+		bzxczxl,bzxczxlexptc,cltx,zdcc,fsfcdj
+		FROM
+		tb_technology_parameter
+
+		where
+		dm = #{dm}
+
+
+	</select>
+
+	<insert id="insertBatteryParamM" parameterType="com.sound.battery.mybatis.model.BatteryParamM">
+
+		insert into
+		tb_technology_parameter(id,
+		xxh,
+		cpbh,
+		dm,
+		cbs1,
+		cbs2,
+		cbs3,
+		cbs4,
+		dtdxbcdl,
+		dtdxsjdl,
+		dtdxgzdy,
+		dxdl,
+		sjdl,
+		zlinptc,
+		zlexptc,
+		dxnlmdinptc,
+		dxnlmdexptc,
+		sjnlmdinptc,
+		sjnlmdexptc,
+		xtrl,
+		xtdy,
+		bzxczxl,
+		bzxczxlexptc,
+		cltx,
+		zdcc,
+		fsfcdj,
+		deleteflag)
+		values(#{id},
+		#{xxh},
+		#{cpbh},
+		#{dm},
+		#{cbs1},
+		#{cbs2},
+		#{cbs3},
+		#{cbs4},
+		#{dtdxbcdl},
+		#{dtdxsjdl},
+		#{dtdxgzdy},
+		#{dxdl},
+		#{sjdl},
+		#{zlinptc},
+		#{zlexptc},
+		#{dxnlmdinptc},
+		#{dxnlmdexptc},
+		#{sjnlmdinptc},
+		#{sjnlmdexptc},
+		#{xtrl},
+		#{xtdy},
+		#{bzxczxl},
+		#{bzxczxlexptc},
+		#{cltx},
+		#{zdcc},
+		#{fsfcdj},0 )
+
+	</insert>
+
+	<update id="updateBatteryParamM" parameterType="com.sound.battery.mybatis.model.BatteryParamM">
+
+		update
+		tb_technology_parameter set
+		xxh=#{xxh},
+		cpbh=#{cpbh},
+		dm=#{dm},
+		cbs1=#{cbs1},
+		cbs2=#{cbs2},
+		cbs3=#{cbs3},
+		cbs4=#{cbs4},
+		dtdxbcdl=#{dtdxbcdl},
+		dtdxsjdl=#{dtdxsjdl},
+		dtdxgzdy=#{dtdxgzdy},
+		dxdl=#{dxdl},
+		sjdl=#{sjdl},
+		zlinptc=#{zlinptc},
+		zlexptc=#{zlexptc},
+		dxnlmdinptc=#{dxnlmdinptc},
+		dxnlmdexptc=#{dxnlmdexptc},
+		sjnlmdinptc=#{sjnlmdinptc},
+		sjnlmdexptc=#{sjnlmdexptc},
+		xtrl=#{xtrl},
+		xtdy=#{xtdy},
+		bzxczxl=#{bzxczxl},
+		bzxczxlexptc=#{bzxczxlexptc},
+		cltx=#{cltx},
+		zdcc=#{zdcc},
+		fsfcdj=#{fsfcdj}
+		where
+		id=#{id}
+
+
+	</update>
+
+	<update id="deleteBatteryParamM" parameterType="String">
+
+		UPDATE
+		tb_technology_parameter
+		SET deleteflag = 1
+		WHERE id = #{id}
+
+	</update>
+
+	<select id="queryDistinctXXH" resultMap="xxhResultMap">
+		SELECT xxh
+		FROM
+		tb_technology_parameter
+		GROUP BY xxh
+		ORDER BY xxh ASC;
+	</select>
+
+	<select id="queryDistinctCPBH" resultMap="cpbhResultMap">
+		SELECT cpbh
+		FROM
+		tb_technology_parameter
+		GROUP BY cpbh
+		ORDER BY cpbh ASC;
+	</select>
+
+	<select id="queryDistinctDM" resultMap="dmResultMap">
+		SELECT dm
+		FROM
+		tb_technology_parameter
+		GROUP BY dm
+		ORDER BY dm ASC;
+	</select>
+
+
+
+
+</mapper>

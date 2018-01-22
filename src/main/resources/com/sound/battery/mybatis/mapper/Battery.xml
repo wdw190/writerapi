@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright 2015-2016 the original author or authors. Licensed under the 
+	Apache License, Version 2.0 (the "License"); you may not use this file except 
+	in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sound.battery.mybatis.mapper.BatteryMapper">
+
+	<resultMap id="BatteryConfigMResult"
+		type="com.sound.battery.mybatis.model.BatteryConfigM">
+		<result property="id" column="id" />
+		<result property="axcs" column="axcs" />
+		<result property="bxcs" column="bxcs" />
+		<result property="bcdl" column="bcdl" />
+		<result property="dypt" column="dypt" />
+		<result property="bcrl" column="bcrl" />
+		<result property="dxzhfs1" column="dxzhfs1" />
+		<result property="dxzhfs2" column="dxzhfs2" />
+		<result property="dxzhfs3" column="dxzhfs3" />
+		<result property="dxzhfs4" column="dxzhfs4" />
+		<result property="xtzc" column="xtzc" />
+		<result property="xtzb" column="xtzb" />
+		<result property="xtxs" column="xtxs" />
+		<result property="sycxcode" column="sycxcode" />
+		<result property="sycxdesc" column="sycxdesc" />
+		<result property="dxnlmd" column="dxnlmd" />
+		<result property="axzl" column="axzl" />
+		<result property="bxzl" column="bxzl" />
+
+	</resultMap>
+	<select id="queryByConditionModel" parameterType="com.sound.model.CustomerRequirementM"
+		resultMap="BatteryConfigMResult">
+		SELECT id,
+		axcs,
+		bxcs,
+		bcdl,
+		dypt,
+		bcrl,
+		dxzhfs1,
+		dxzhfs2,
+		dxzhfs3,
+		dxzhfs4,
+		xtzc,
+		xtzb,
+		xtxs,
+		sycxcode,
+		sycxdesc,
+		dxnlmd,
+		axzl,
+		bxzl
+		FROM
+		tb_systtem_config
+
+		<where>
+			<if test=" dymin != null and dymax != null "> <![CDATA[ dypt >= #{dymin} and dypt <= #{dymax} ]]>
+			</if>
+
+			<if test=" dlmin != null and dlmax != null "> <![CDATA[ and bcdl >= #{dlmin} and bcdl <= #{dlmax} ]]>
+			</if>
+			<if test=" dcxslmin != null and dcxslmax != null "> <![CDATA[ and  xtxs >= #{dcxslmin} and xtxs <= #{dcxslmax} ]]>
+			</if>
+			<if test=" cc != null "> <![CDATA[ and  sycxcode = #{cc} ]]>
+			</if>
+
+		</where>
+
+		ORDER BY bcdl DESC, dypt DESC, bcrl DESC
+	</select>
+
+	<select id="queryById" parameterType="String" resultMap="BatteryConfigMResult">
+		SELECT
+		id,
+		axcs,
+		bxcs,
+		bcdl,
+		dypt,
+		bcrl,
+		dxzhfs1,
+		dxzhfs2,
+		dxzhfs3,
+		dxzhfs4,
+		xtzc,
+		xtzb,
+		xtxs,
+		sycxcode,
+		sycxdesc,
+		dxnlmd,
+		axzl,
+		bxzl
+		FROM
+		tb_systtem_config
+
+		where id = #{id}
+	</select>
+
+</mapper>

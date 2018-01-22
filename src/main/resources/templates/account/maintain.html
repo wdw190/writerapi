@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+
+<meta charset="utf-8"></meta>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<meta name="description" content=""></meta>
+<meta name="author" content=""></meta>
+
+<title>动力电池配置系統--用户信息修改</title>
+<link rel="shortcut icon" th:href="@{/icon/logo.ico}" />
+<!-- Bootstrap Core CSS -->
+<!-- Bootstrap Core CSS -->
+<link href="../home/vendor/bootstrap/css/bootstrap.min.css"
+	th:href="@{/home/vendor/bootstrap/css/bootstrap.min.css}"
+	rel="stylesheet"></link>
+
+</head>
+
+<body>
+
+	<div class="container">
+
+		<ul id="myTab" class="nav nav-tabs">
+			<li class="active"><a href="#passwordtab" data-toggle="tab">
+					重置密码 </a></li>
+			<li><a href="#usernametab" data-toggle="tab">修改用户名</a></li>
+			<li><a href="#userroletab" data-toggle="tab">角色调整</a></li>
+
+		</ul>
+		<div id="myTabContent" class="tab-content">
+			<div class="tab-pane fade in active" id="passwordtab">
+				<div sec:authorize="isAuthenticated()">
+
+					<form class="form-horizontal" id="updatePassForm"
+						th:action="@{/account/updateuserinfo}" method="post">
+						<fieldset>
+							<div class="form-group">
+								<label class="control-label col-xs-12  col-md-3 "
+									for="userid_updatepass">用户ID</label>
+								<div class="col-xs-12 col-md-9 ">
+									<p class="form-control-static">
+										<span th:text="${accountuser.userid}" id="userid_updatepass"
+											name="userid_updatepass"></span>
+									</p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-xs-12  col-md-3 ">原用户名</label>
+								<div class="col-xs-12 col-md-9 ">
+									<p class="form-control-static">
+										<span th:text="${accountuser.username}"></span>
+									</p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-xs-12  col-md-3 " for="password">新密码</label>
+								<div class="col-xs-12 col-md-9 ">
+									<input type="text" class="form-control" id="password"
+										name="password" placeholder="请输入新密码" required="required"
+										pattern="(?=^.{8,25}$)(?=(?:.*?\d){1})(?=.*[a-z])(?=(?:.*?[A-Z]){1})(?=(?:.*?[!@#$%*()_+^&amp;}{:;?.]){1})(?!.*\s)[0-9a-zA-Z!@#$%*()_+^&amp;]*$"
+										title="请输入新密碼，例如Demo123!"></input>
+									<p class="help-block">要求密码长度最少8位，包含至少1个特殊字符，1个数字，1个大写字母和一些小写字母</p>
+								</div>
+							</div>
+
+
+							<div class="form-group">
+
+								<div class="col-xs-12 col-md-offset-3 col-md-9 ">
+									<button type="submit" class="btn btn-primary btn-lg btn-block">保存</button>
+									<a th:href="@{/accountmaintain/index}"
+										class="btn btn-info btn-lg btn-block">返回</a>
+								</div>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+			<div class="tab-pane fade" id="usernametab">
+				<div sec:authorize="isAuthenticated()">
+
+					<form class="form-horizontal" id="updateUsernameForm"
+						th:action="@{/account/updateusername}" method="post">
+						<fieldset>
+
+							<div class="form-group">
+								<label class="control-label col-xs-12  col-md-3 "
+									for="userid_username">用户ID</label>
+								<div class="col-xs-12 col-md-9 ">
+									<p class="form-control-static">
+										<span th:text="${accountuser.userid}" id="userid_username"
+											name="userid_username"></span>
+									</p>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-xs-12  col-md-3 ">原用户名</label>
+								<div class="col-xs-12 col-md-9 ">
+									<p class="form-control-static">
+										<span th:text="${accountuser.username}"></span>
+									</p>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-xs-12  col-md-3 " for="username">新用户名</label>
+								<div class="col-xs-12 col-md-9 ">
+									<input type="text" class="form-control" id="username"
+										required="required" name="username"></input>
+								</div>
+							</div>
+
+
+							<div class="form-group">
+
+								<div class="col-xs-12 col-md-offset-3 col-md-9 ">
+									<button type="submit" class="btn btn-primary btn-lg btn-block">保存</button>
+									<a th:href="@{/accountmaintain/index}"
+										class="btn btn-info btn-lg btn-block">返回</a>
+								</div>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+			<div class="tab-pane fade" id="userroletab">
+				<div sec:authorize="isAuthenticated()">
+
+					<form class="form-horizontal" id="updateUserRoleForm"
+						th:action="@{/account/updateroles}" method="post">
+						<fieldset>
+
+
+							<div class="form-group">
+								<label class="control-label col-xs-12  col-md-3 "
+									for="userid_userrole">用户ID</label>
+								<div class="col-xs-12 col-md-9 ">
+									<p class="form-control-static">
+										<span th:text="${accountuser.userid}" id="userid_userrole"></span>
+									</p>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-xs-12  col-md-3 ">用户名</label>
+								<div class="col-xs-12 col-md-9 ">
+									<p class="form-control-static">
+										<span th:text="${accountuser.username}"></span>
+									</p>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label col-xs-12  col-md-3 " for="cbs1">用户角色</label>
+								<div class="col-xs-12 col-md-9 ">
+									<label class="checkbox-inline" th:each="role:${rolesList}">
+										<input type="checkbox" id="inlineCheckbox1"
+										th:checked="${role.have}" th:value="${role.role}" /><span
+										th:text="${role.roledesc}"></span>
+									</label>
+
+
+								</div>
+							</div>
+
+							<div class="form-group">
+
+								<div class="col-xs-12 col-md-offset-3 col-md-9 ">
+									<button type="submit" class="btn btn-primary btn-lg btn-block">保存</button>
+									<a th:href="@{/accountmaintain/index}"
+										class="btn btn-info btn-lg btn-block">返回</a>
+								</div>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+
+		</div>
+
+
+
+
+
+		<!-- /.row -->
+		<!-- /.row -->
+		<div class="row">
+
+			<div class="modal fade" id="alertmodalsuccess_pass">
+				<div class="modal-content">
+					<!-- <div class="modal-dialog"> -->
+					<div class="modal-header">
+						<a class="close" data-dismiss="modal">×</a>
+						<h3>提示信息-成功</h3>
+					</div>
+					<div class="modal-content">
+						<h4>【成功】</h4>
+						<p>重置密码成功!!!</p>
+					</div>
+					<div class="modal-footer">
+						<a href="#" class="btn btn-success" data-dismiss="modal">关闭</a>
+					</div>
+					<!-- </div>-->
+				</div>
+			</div>
+
+			<div class="modal fade" id="alertmodalfailure_pass">
+				<div class="modal-content">
+					<!-- <div class="modal-dialog"> -->
+					<div class="modal-header">
+						<a class="close" data-dismiss="modal">×</a>
+						<h3>提示信息-失败</h3>
+					</div>
+					<div class="modal-content">
+						<h4>【失败】</h4>
+						<p>重置密码失败，请重试!!!.</p>
+					</div>
+					<div class="modal-footer">
+						<a href="#" class="btn btn-success" data-dismiss="modal">关闭</a>
+					</div>
+					<!-- </div>-->
+				</div>
+			</div>
+			<!-- /.row -->
+
+
+			<!-- /#page-wrapper -->
+
+		</div>
+		<!-- /.row -->
+		<div class="row">
+
+			<div class="modal fade" id="alertmodalsuccess_username">
+				<div class="modal-content">
+					<!-- <div class="modal-dialog"> -->
+					<div class="modal-header">
+						<a class="close" data-dismiss="modal">×</a>
+						<h3>提示信息-成功</h3>
+					</div>
+					<div class="modal-content">
+						<h4>【成功】</h4>
+						<p>修改用戶名成功!!!</p>
+					</div>
+					<div class="modal-footer">
+						<a href="#" class="btn btn-success" data-dismiss="modal">关闭</a>
+					</div>
+					<!-- </div>-->
+				</div>
+			</div>
+
+			<div class="modal fade" id="alertmodalfailure_username">
+				<div class="modal-content">
+					<!-- <div class="modal-dialog"> -->
+					<div class="modal-header">
+						<a class="close" data-dismiss="modal">×</a>
+						<h3>提示信息-失败</h3>
+					</div>
+					<div class="modal-content">
+						<h4>【失败】</h4>
+						<p>修改用户名失败，请重试!!!.</p>
+					</div>
+					<div class="modal-footer">
+						<a href="#" class="btn btn-success" data-dismiss="modal">关闭</a>
+					</div>
+					<!-- </div>-->
+				</div>
+			</div>
+			<!-- /.row -->
+
+
+			<!-- /#page-wrapper -->
+
+		</div>
+		<!-- /.row -->
+		<div class="row">
+
+			<div class="modal fade" id="alertmodalsuccess_roles">
+				<div class="modal-content">
+					<!-- <div class="modal-dialog"> -->
+					<div class="modal-header">
+						<a class="close" data-dismiss="modal">×</a>
+						<h3>提示信息-成功</h3>
+					</div>
+					<div class="modal-content">
+						<h4>【成功】</h4>
+						<p>修改角色成功!!!</p>
+					</div>
+					<div class="modal-footer">
+						<a href="#" class="btn btn-success" data-dismiss="modal">关闭</a>
+					</div>
+					<!-- </div>-->
+				</div>
+			</div>
+
+			<div class="modal fade" id="alertmodalfailure_roles">
+				<div class="modal-content">
+					<!-- <div class="modal-dialog"> -->
+					<div class="modal-header">
+						<a class="close" data-dismiss="modal">×</a>
+						<h3>提示信息-失败</h3>
+					</div>
+					<div class="modal-content">
+						<h4>【失败】</h4>
+						<p>修改角色失败，请重试!!!.</p>
+					</div>
+					<div class="modal-footer">
+						<a href="#" class="btn btn-success" data-dismiss="modal">关闭</a>
+					</div>
+					<!-- </div>-->
+				</div>
+			</div>
+			<!-- /.row -->
+
+
+			<!-- /#page-wrapper -->
+
+		</div>
+		<!-- /#page-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+	<!-- logoutform -->
+	<div th:replace="fragments/header :: logoutform"></div>
+
+	<!-- jQuery -->
+	<script src="../home/vendor/jquery/jquery.min.js"
+		th:src="@{/home/vendor/jquery/jquery.min.js}"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="../home/vendor/bootstrap/js/bootstrap.min.js"
+		th:src="@{/home/vendor/bootstrap/js/bootstrap.min.js}"></script>
+
+	<!-- Metis Menu Plugin JavaScript -->
+	<script src="../home/vendor/metisMenu/metisMenu.min.js"
+		th:src="@{/home/vendor/metisMenu/metisMenu.min.js}"></script>
+
+	<!-- Morris Charts JavaScript -->
+	<script src="../home/vendor/raphael/raphael.min.js"
+		th:src="@{/home/vendor/raphael/raphael.min.js}"></script>
+	<script src="../home/vendor/morrisjs/morris.min.js"
+		th:src="@{/home/vendor/morrisjs/morris.min.js}"></script>
+	<script src="../home/data/morris-data.js"
+		th:src="@{/home/data/morris-data.js}"></script>
+
+	<!-- DataTables JavaScript -->
+	<script src="../home/vendor/datatables/js/jquery.dataTables.min.js"
+		th:src="@{/home/vendor/datatables/js/jquery.dataTables.min.js}"></script>
+	<script
+		src="../home/vendor/datatables-plugins/dataTables.bootstrap.min.js"
+		th:src="@{/home/vendor/datatables-plugins/dataTables.bootstrap.min.js}"></script>
+	<script
+		src="../home/vendor/datatables-responsive/dataTables.responsive.js"
+		th:src="@{/home/vendor/datatables-responsive/dataTables.responsive.js}"></script>
+
+
+	<!-- Custom Theme JavaScript -->
+	<script src="../home/dist/js/sb-admin-2.js"
+		th:src="@{/home/dist/js/sb-admin-2.js}"></script>
+	<script th:src="@{/twitter-bootstrap-v2/js/bootstrap-modal.js}"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			//修改密码
+
+			$('#updatePassForm').on('submit', function(event) {
+				var $form = $(this);
+
+				event.preventDefault();
+
+				updatePassData();
+			});
+
+			//修改用户名
+			$('#updateUsernameForm').on('submit', function(event) {
+				var $form = $(this);
+
+				event.preventDefault();
+
+				updateUserNameData();
+			});
+
+			//修改用户角色
+			$('#updateUserRoleForm').on('submit', function(event) {
+				var $form = $(this);
+
+				event.preventDefault();
+
+				updateUserRolesData();
+			});
+
+		});
+
+		function updatePassData() {
+
+			var queryPojo = new Object();
+
+			queryPojo.userid = $('#userid_updatepass').text();
+			queryPojo.password = $('#password').val();
+
+			var json = JSON.stringify(queryPojo);
+
+			//alert(json);
+
+			$.ajax({
+				type : $('#updatePassForm').attr("method"),
+				contentType : 'application/json',
+				url : $('#updatePassForm').attr("action"),
+				data : json
+			}).then(function(data) {
+
+				if (data.flag == 'S') {
+
+					$('#alertmodalsuccess_pass').modal('show');
+
+				} else {
+					$('#alertmodalfailure_pass').modal('show');
+				}
+
+			});//then方法结束
+
+		}
+
+		//修改用户名
+		function updateUserNameData() {
+
+			var queryPojo = new Object();
+
+			queryPojo.userid = $('#userid_username').text();
+			queryPojo.username = $('#username').val();
+
+			var json = JSON.stringify(queryPojo);
+
+			//alert(json);
+
+			$.ajax({
+				type : $('#updateUsernameForm').attr("method"),
+				contentType : 'application/json',
+				url : $('#updateUsernameForm').attr("action"),
+				data : json
+			}).then(function(data) {
+
+				if (data.flag == 'S') {
+
+					$('#alertmodalsuccess_username').modal('show');
+
+				} else {
+					$('#alertmodalfailure_username').modal('show');
+				}
+
+			});//then方法结束
+
+		}
+
+		//修改用户角色
+		function updateUserRolesData() {
+
+			var queryPojo = new Object();
+
+			queryPojo.userid = $('#userid_userrole').text();
+
+			var roles = "";
+
+			$('input[type="checkbox"]:checked').each(function() {
+				roles = roles + $(this).val() + ",";
+
+			});
+
+			queryPojo.role = roles;
+
+			var json = JSON.stringify(queryPojo);
+
+			//alert(json);
+
+			$.ajax({
+				type : $('#updateUserRoleForm').attr("method"),
+				contentType : 'application/json',
+				url : $('#updateUserRoleForm').attr("action"),
+				data : json
+			}).then(function(data) {
+
+				if (data.flag == 'S') {
+
+					$('#alertmodalsuccess_roles').modal('show');
+
+				} else {
+					$('#alertmodalfailure_roles').modal('show');
+				}
+
+			});//then方法结束
+
+		}
+	</script>
+</body>
+
+</html>

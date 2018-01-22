@@ -1,0 +1,3 @@
+[2018-01-08 11:39:19][INFO][com.sound.writer.mybatis.service.DefaultWriterService] ---------------下述学生-用户注册【成功】----------BEGIN--------
+[2018-01-08 11:39:19][INFO][com.sound.writer.mybatis.service.DefaultWriterService] 用户信息：Student [name=张晓明, age=13, schoolName=第一实验中学, gradeCode=0, gradeDesc=一年级, toString()=UserAccount [phoneNumber=13787262391, password=123456, accountType=student, registeredTime=2017-12-29 13:49:49]]
+[2018-01-08 11:39:19][INFO][com.sound.writer.mybatis.service.DefaultWriterService] ---------------学生-用户注册【成功】----------END--------

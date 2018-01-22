@@ -1,0 +1,8 @@
+#security:
+# oauth2:
+#   resource:
+#     jwt:
+#       keyUri: http://localhost:8080/auth/oauth/token_key
+#秘钥
+keystore:
+  password: Writer888!

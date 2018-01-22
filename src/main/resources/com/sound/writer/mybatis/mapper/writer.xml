@@ -1,0 +1,797 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright 2015-2016 the original author or authors. Licensed under the 
+	Apache License, Version 2.0 (the "License"); you may not use this file except 
+	in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sound.writer.mybatis.mapper.WriterMapper">
+
+	<resultMap id="userAccountMap" type="com.sound.writer.pojo.UserAccount">
+		<result property="phoneNumber" column="phone_number" />
+		<result property="password" column="password" />
+		<result property="accountType" column="account_type" />
+		<result property="registeredTime" column="registered_time" />
+
+	</resultMap>
+
+	<!-- 作品映射 -->
+	<resultMap type="com.sound.writer.pojo.Works" id="resultMapWorks">
+
+		<result property="phoneNumber" column="phone_number" />
+		<result property="uuid" column="uuid" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="imageContentPath" column="image_content_path" />
+		<result property="creationTime" column="creation_time" />
+		<result property="isItOpen" column="is_it_open" />
+		<result property="agentListUuid" column="agent_list_uuid" />
+
+	</resultMap>
+
+	<!-- 缴费记录 -->
+	<resultMap type="com.sound.writer.pojo.CostInfo" id="resultMapCostInfo">
+
+		<result property="uuid" column="uuid" />
+		<result property="worksListUuid" column="works_list_uuid" />
+		<result property="amount" column="amount" />
+		<result property="timeOfOccurrence" column="time_of_occurrence" />
+
+	</resultMap>
+
+	<!-- 代办 -->
+
+	<resultMap type="com.sound.writer.pojo.query.model.AgentM"
+		id="resultMapAgentM">
+
+		<result property="uuid" column="uuid" />
+		<result property="taskTitle" column="task_title" />
+		<result property="sumitter" column="sumitter" />
+		<result property="agentStaff" column="agent_staff" />
+		<result property="submitTime" column="submit_time" />
+		<result property="evaluationStatus" column="evaluation_status" />
+		<result property="paymentStatus" column="payment_status" />
+		<result property="receiveTheFeeStaus" column="receive_the_fee_staus" />
+		<result property="reviewTheWay" column="review_the_way" />
+
+		<!-- 使用 嵌套 查询实现一对一关系映射 学生信息/提交人信息 -->
+		<association property="student" column="sumitter"
+			select="findStudentByPhoneNumber" />
+
+		<!-- 使用 嵌套 查询实现一对一关系映射 缴费信息 -->
+		<association property="costInfo" column="uuid"
+			select="findCostInfoByAgentListUUID" />
+
+
+		<!-- 使用 嵌套 查询实现一对一关系映射 评阅信息 -->
+		<collection property="changeTheResult" column="uuid"
+			select="findChangeTheResultByAgentUUID" />
+
+		<!-- 使用 嵌套 查询实现一对多关系映射 作品原图 -->
+		<collection property="worksList" column="uuid"
+			select="findWorksByAgentId" />
+
+		<!-- 使用 嵌套 查询实现一对多关系映射 评阅后的作品图 -->
+		<collection property="approvedWorksList" column="uuid"
+			select="findApprovedWorks" />
+
+	</resultMap>
+
+	<!-- 教师 -->
+
+	<resultMap type="com.sound.writer.pojo.Teacher" id="teacherResultMap">
+
+		<result property="phoneNumber" column="phone_number" />
+		<result property="name" column="name" />
+		<result property="identificationNumber" column="identification_number" />
+		<result property="schoolName" column="school_name" />
+		<result property="jobTitle" column="job_title" />
+
+	</resultMap>
+
+	<!-- 学生基本信息 -->
+	<resultMap type="com.sound.writer.pojo.Student" id="studentResultMap">
+
+		<result property="phoneNumber" column="phone_number" />
+		<result property="name" column="name" />
+		<result property="age" column="age" />
+		<result property="schoolName" column="school_name" />
+		<result property="gradeCode" column="grade_code" />
+		<result property="gradeDesc" column="grade_desc" />
+
+
+	</resultMap>
+
+	<!-- 评阅后的作品图 -->
+
+	<resultMap type="com.sound.writer.pojo.ApprovedWorks" id="approvedWorksResultMap">
+
+		<result property="uuid" column="uuid" />
+		<result property="agentListUuid" column="agent_list_uuid" />
+		<result property="imagePath" column="image_path" />
+		<result property="approvedTime" column="approved_time" />
+
+	</resultMap>
+
+	<!-- 评阅信息 -->
+	<resultMap type="com.sound.writer.pojo.ChangeTheResult" id="changeTheResultMap">
+
+		<result property="uuid" column="uuid" />
+		<result property="agentListUuid" column="agent_list_uuid" />
+		<result property="worksScore" column="works_score" />
+		<result property="workEvaluation" column="work_evaluation" />
+		<result property="dealer" column="dealer" />
+		<result property="dealTime" column="deal_time" />
+
+	</resultMap>
+
+	<!-- 我的作品映射 -->
+
+	<resultMap type="com.sound.writer.pojo.MyWorksM" id="myWorksResultMap">
+
+		<result property="uuid" column="uuid" />
+		<result property="taskTitle" column="task_title" />
+		<result property="sumitter" column="sumitter" />
+		<result property="submitTime" column="submit_time" />
+		<result property="evaluationStatus" column="evaluation_status" />
+
+
+		<!-- 使用 嵌套 查询实现一对一关系映射 缴费信息 -->
+		<association property="costInfo" column="uuid"
+			select="findCostInfoByAgentListUUID" />
+
+		<!-- 使用 嵌套 查询实现一对一关系映射 评阅教师 -->
+		<association property="teacher" column="agent_staff"
+			select="findTeacherByPhoneNumber" />
+
+		<!-- 使用 嵌套 查询实现一对多关系映射 评阅信息 -->
+		<collection property="changeTheResult" column="uuid"
+			select="findChangeTheResultByAgentUUID" />
+
+		<!-- 使用 嵌套 查询实现一对多关系映射 作品原图 -->
+		<collection property="worksList" column="uuid"
+			select="findWorksByAgentId" />
+
+		<!-- 使用 嵌套 查询实现一对多关系映射 评阅后的作品图 -->
+		<collection property="approvedWorksList" column="uuid"
+			select="findApprovedWorks" />
+
+
+
+
+	</resultMap>
+
+	<!-- 教师评阅费用 -->
+	<resultMap type="com.sound.writer.pojo.TeacherPrice" id="teacherPriceResultMap">
+
+		<result property="uuid" column="uuid" />
+		<result property="phoneNumber" column="phone_number" />
+		<result property="startTime" column="start_time" />
+		<result property="endTime" column="end_time" />
+		<result property="price" column="price" />
+		<result property="enabled" column="enabled" />
+
+
+	</resultMap>
+
+	<!-- 教师证书 -->
+	<resultMap type="com.sound.writer.pojo.QualificationCertificate"
+		id="qualificationCertificateResultMap">
+
+		<result property="uuid" column="uuid" />
+		<result property="phoneNumber" column="phone_number" />
+		<result property="certificateName" column="certificate_name" />
+		<result property="certificatePathView" column="certificate_path_view" />
+		<result property="certificatePathDownload" column="certificate_path_download" />
+
+
+	</resultMap>
+
+	<!-- 教师列表 -->
+	<resultMap type="com.sound.writer.pojo.query.model.TeacherM"
+		id="teacherMResultMap">
+		<result property="phoneNumber" column="phone_number" />
+		<result property="name" column="name" />
+		<result property="identificationNumber" column="identification_number" />
+		<result property="schoolName" column="school_name" />
+		<result property="jobTitle" column="job_title" />
+
+
+		<!-- 使用 嵌套 查询实现一对一关系映射 账号 -->
+		<association property="userAccount" column="phone_number"
+			select="findUserAccountByPhoneNumber" />
+
+		<!-- 使用 嵌套 查询实现一对一关系映射 评阅费用 -->
+		<association property="teacherPrice" column="phone_number"
+			select="findTeacherPriceByPhoneNumber" />
+
+		<!-- 使用 嵌套 查询实现一对多关系映射 证书 -->
+		<collection property="qualificationCertificateList" column="phone_number"
+			select="findQualificationCertificateList" />
+
+
+	</resultMap>
+
+	<!-- 学生基本信息 -->
+	<resultMap type="com.sound.writer.pojo.StudentInfo" id="studentInfoResultMap">
+
+		<result property="phoneNumber" column="phone_number" />
+		<result property="name" column="name" />
+		<result property="age" column="age" />
+		<result property="schoolName" column="school_name" />
+		<result property="gradeCode" column="grade_code" />
+		<result property="gradeDesc" column="grade_desc" />
+
+		<!-- 使用 嵌套 查询实现一对一关系映射 账号 -->
+		<association property="userAccount" column="phone_number"
+			select="findUserAccountByPhoneNumber" />
+
+	</resultMap>
+
+
+
+	<!-- 费用领用记录 -->
+	<resultMap type="com.sound.writer.pojo.ReceiveFeeRecord" id="receiveFeeRecordResultMap">
+
+		<result property="uuid" column="uuid" />
+		<result property="worksListUuid" column="works_list_uuid" />
+		<result property="receiveTheAmount" column="receive_the_amount" />
+		<result property="receiveTime" column="receive_time" />
+		<result property="recipients" column="recipients" />
+
+
+	</resultMap>
+
+	<!-- 提现记录 -->
+	<resultMap type="com.sound.writer.pojo.ApplyNow" id="applyNowResultMap">
+
+		<result property="uuid" column="uuid" />
+		<result property="amount" column="amount" />
+		<result property="applyStartTime" column="apply_start_time" />
+		<result property="applySponsor" column="apply_sponsor" />
+		<result property="applyDealer" column="apply_dealer" />
+		<result property="applyDealStatus" column="apply_deal_status" />
+		<result property="applyDealTime" column="apply_deal_time" />
+
+
+
+	</resultMap>
+
+	<!-- 我的钱包 -->
+
+	<resultMap type="com.sound.writer.pojo.query.model.WalletM"
+		id="walletMResultMap">
+
+		<result property="uuid" column="uuid" />
+		<result property="phoneNumber" column="phone_number" />
+		<result property="amount" column="Amount" />
+
+		<!-- 使用 嵌套 查询实现一对多关系映射 费用领取记录 -->
+		<collection property="receiveFeeRecordList" column="phone_number"
+			select="findReceiveFeeRecordList" />
+
+		<!-- 使用 嵌套 查询实现一对多关系映射 提现记录 -->
+		<collection property="applyNowList" column="phone_number"
+			select="findApplyNowList" />
+
+
+	</resultMap>
+
+	<!-- 登录后返回的账号信息 -->
+
+	<resultMap type="com.sound.writer.pojo.query.model.LoginUserInfoM"
+		id="loginUserInfoMResultMap" extends="userAccountMap">
+
+		<!-- 使用 嵌套 查询实现一对一关系映射 账号 -->
+		<association property="student" column="phone_number"
+			select="findStudentByPhoneNumber" />
+		<!-- 使用 嵌套 查询实现一对一关系映射 账号 -->
+		<association property="teacher" column="phone_number"
+			select="findTeacherByPhoneNumber" />
+
+
+
+
+	</resultMap>
+
+	<!-- 查询提现记录 -->
+
+	<select id="findApplyNowList" parameterType="String" resultMap="applyNowResultMap">
+
+		SELECT uuid, amount, apply_start_time, apply_sponsor, apply_dealer,
+		apply_deal_status, apply_deal_time
+		FROM writer.apply_now
+		WHERE
+		apply_sponsor = #{phoneNumber}
+
+	</select>
+
+	<!-- 查询费用领取记录 -->
+
+	<select id="findReceiveFeeRecordList" parameterType="String"
+		resultMap="receiveFeeRecordResultMap">
+		SELECT uuid, works_list_uuid, receive_the_amount,
+		receive_time, recipients
+		FROM writer.receive_fee_record
+		WHERE recipients
+		= #{phoneNumber}
+
+
+	</select>
+
+	<!-- 查询我的钱包 -->
+
+	<select id="findMyWalletInfo" parameterType="String" resultMap="walletMResultMap">
+
+		SELECT uuid, phone_number, Amount
+		FROM writer.wallet
+		WHERE phone_number
+		= #{phoneNumber}
+
+	</select>
+	<!-- 查询学生基本信息 -->
+	<select id="findStudentInfoByPhoneNumber" parameterType="String"
+		resultMap="studentInfoResultMap">
+
+		SELECT phone_number, name, age, school_name, grade_code,
+		grade_desc
+		FROM writer.student_info
+		WHERE phone_number= #{phoneNumber}
+
+	</select>
+
+	<!-- 查询学生信息 -->
+	<select id="findStudentByPhoneNumber" parameterType="String"
+		resultMap="studentResultMap">
+
+		SELECT phone_number, name, age, school_name, grade_code,
+		grade_desc
+		FROM writer.student_info
+		WHERE phone_number= #{phoneNumber}
+
+	</select>
+
+	<!-- 查询教师基本信息 -->
+	<select id="findTeacherInfoList"
+		parameterType="com.sound.writer.pojo.query.model.TeacherQueryConditionsM"
+		resultMap="teacherMResultMap">
+
+		SELECT phone_number, name, identification_number, school_name,
+		job_title
+		FROM writer.teacher_info
+
+		<where>
+			<if test=" phoneNumber != null and phoneNumber != '' "> phone_number = #{phoneNumber}
+			</if>
+
+			<if test=" jobTitle != null and jobTitle != '' "> and job_title = #{jobTitle}
+			</if>
+
+		</where>
+
+	</select>
+
+	<!-- 查询教师证书 -->
+	<select id="findQualificationCertificateList" parameterType="String"
+		resultMap="qualificationCertificateResultMap">
+
+		SELECT uuid, phone_number, certificate_name,
+		certificate_path_view,
+		certificate_path_download
+		FROM
+		writer.qualification_certificate
+		WHERE phone_number = #{phoneNumber}
+
+
+	</select>
+
+	<!-- 查询教师评阅费用 -->
+
+	<select id="findTeacherPriceByPhoneNumber" parameterType="String"
+		resultMap="teacherPriceResultMap">
+
+		SELECT uuid, phone_number, start_time, end_time, price,
+		enabled
+		FROM writer.teacher_price
+		WHERE phone_number = #{phoneNumber}
+
+	</select>
+
+	<!-- 查询账号 -->
+	<select id="findUserAccountByPhoneNumber" parameterType="String"
+		resultMap="userAccountMap">
+
+		SELECT phone_number, password, account_type, registered_time
+		FROM writer.user_account
+		WHERE phone_number = #{phoneNumber}
+
+	</select>
+
+	<!-- 基于代办ID查询此代办的评阅信息 -->
+	<select id="findChangeTheResultByAgentUUID" parameterType="String"
+		resultMap="changeTheResultMap">
+
+		SELECT uuid, agent_list_uuid, works_score, work_evaluation,
+		dealer,
+		deal_time
+		FROM writer.change_the_result
+		WHERE agent_list_uuid =
+		#{agentListUuid}
+
+
+	</select>
+
+	<!-- 基于代办ID 查询代办完成后的 评阅人提交的评阅后的作品图片 -->
+
+	<select id="findApprovedWorks" parameterType="String"
+		resultMap="approvedWorksResultMap">
+
+		SELECT uuid, agent_list_uuid, image_path, approved_time
+		FROM
+		writer.approved_works
+		WHERE agent_list_uuid= #{agentListUuid}
+
+	</select>
+
+	<!-- 基于账号/手机号码 查询教师信息 -->
+	<select id="findTeacherByPhoneNumber" parameterType="String"
+		resultMap="teacherResultMap">
+
+		SELECT phone_number, name, identification_number,
+		school_name, job_title
+		FROM writer.teacher_info
+		WHERE phone_number=
+		#{phoneNumber}
+
+
+	</select>
+
+	<!-- 基于代办ID查询代办对应的缴费记录 -->
+	<select id="findCostInfoByAgentListUUID" parameterType="String"
+		resultMap="resultMapCostInfo">
+
+		SELECT uuid, works_list_uuid, amount, time_of_occurrence
+		FROM writer.cost_info
+		WHERE works_list_uuid = #{agentListUuid}
+
+	</select>
+
+	<!-- 基于代办ID查询代办对应的作品 -->
+	<select id="findWorksByAgentId" parameterType="String"
+		resultMap="resultMapWorks">
+
+		SELECT phone_number, uuid, title, content,
+		image_content_path,
+		creation_time, is_it_open, agent_list_uuid
+		FROM
+		writer.works
+		WHERE agent_list_uuid = #{agentListUuid}
+
+
+	</select>
+
+	<!-- 基于代办人查询其所有的代办/已办 -->
+	<select id="findAgentListByAgentStaff"
+		parameterType="com.sound.writer.pojo.query.model.AgentQueryConditionsM"
+		resultMap="resultMapAgentM">
+
+		SELECT uuid, task_title, sumitter, agent_staff, submit_time,
+		evaluation_status, payment_status,
+		receive_the_fee_staus,review_the_way
+		FROM
+		writer.agent_list
+
+		WHERE
+		agent_staff = #{agentStaff} AND
+		evaluation_status = #{evaluationStatus}
+
+	</select>
+
+	<!-- 基于代办ID查询代办详情 -->
+
+	<select id="findAgentInfoByUUID" parameterType="String"
+		resultMap="resultMapAgentM">
+
+		SELECT uuid, task_title, sumitter, agent_staff, submit_time,
+		evaluation_status, payment_status,
+		receive_the_fee_staus,review_the_way
+		FROM
+		writer.agent_list
+
+		WHERE uuid =
+		#{agentUUID}
+
+	</select>
+
+	<!-- 查询我的作品 -->
+	<select id="findMyWorksBYPhoneNum" parameterType="String"
+		resultMap="myWorksResultMap">
+
+		SELECT uuid, task_title, sumitter, agent_staff, submit_time,
+		evaluation_status, payment_status,
+		receive_the_fee_staus,review_the_way
+		FROM
+		writer.agent_list
+
+		WHERE
+		sumitter = #{phoneNumber}
+
+
+	</select>
+
+	<!-- 查询我的单个作品详情 -->
+	<select id="findMySingleWorksInfo" parameterType="String"
+		resultMap="myWorksResultMap">
+
+		SELECT uuid, task_title, sumitter, agent_staff, submit_time,
+		evaluation_status, payment_status,
+		receive_the_fee_staus,review_the_way
+		FROM
+		writer.agent_list
+
+		WHERE uuid =
+		#{uuid}
+
+
+	</select>
+
+
+	<!-- 基于账号和密码查询用户 -->
+	<select id="queryUserByUNameAndPass" parameterType="com.sound.writer.pojo.query.model.LoginM"
+		resultMap="loginUserInfoMResultMap">
+
+
+
+		SELECT phone_number, password, account_type, registered_time
+		FROM user_account
+		WHERE phone_number = #{phoneNumber} AND password=
+		#{password}
+
+
+	</select>
+
+
+	<!-- 插入账号 -->
+	<insert id="insertUserAccount" parameterType="com.sound.writer.pojo.UserAccount">
+
+		INSERT INTO
+		user_account(phone_number,
+		password,
+		account_type,
+		registered_time)
+		VALUES (#{phoneNumber},
+		#{password},
+		#{accountType},
+		#{registeredTime});
+
+
+
+	</insert>
+	<!-- 插入学生基本信息 -->
+	<insert id="insertStudent" parameterType="com.sound.writer.pojo.Student">
+
+		INSERT INTO
+		student_info(phone_number,
+		name,
+		age,
+		school_name,
+		grade_code,
+		grade_desc)
+		VALUES (#{phoneNumber},
+		#{name},
+		#{age},
+		#{schoolName},
+		#{gradeCode},
+		#{gradeDesc});
+
+
+	</insert>
+	<!-- 插入教师基本信息 -->
+	<!-- <choose> <when test="jobTitle == null "><![CDATA[ null ]]></when> <otherwise> 
+		<![CDATA[ #{jobTitle} ]]> </otherwise> </choose> -->
+	<insert id="insertTeacher" parameterType="com.sound.writer.pojo.Teacher">
+
+		INSERT INTO
+		teacher_info(phone_number,
+		name,
+		identification_number,
+		school_name,
+		job_title)
+		VALUES (#{phoneNumber},
+		#{name},
+		#{identificationNumber},
+		#{schoolName},
+		#{jobTitle}
+		);
+
+
+	</insert>
+
+
+	<!-- 批量插入证书 -->
+
+	<insert id="insertQualificationCertificates" parameterType="java.util.List">
+		INSERT INTO qualification_certificate(
+		uuid
+		,phone_number
+		,certificate_name
+		,certificate_path_view
+		,certificate_path_download
+		)
+		VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=" , ">
+			(#{item.uuid},#{item.phoneNumber},#{item.certificateName},#{item.certificatePathView},#{item.certificatePathDownload})
+		</foreach>
+
+	</insert>
+
+	<!-- 添加代办 -->
+	<insert id="insertAgentList" parameterType="com.sound.writer.pojo.AgentList">
+
+		INSERT INTO
+		writer.agent_list(uuid,
+		task_title,
+		sumitter,
+		agent_staff,
+		submit_time,
+		evaluation_status,
+		payment_status,
+		receive_the_fee_staus,
+		review_the_way)
+		VALUES
+		(#{uuid},
+		#{taskTitle},
+		#{sumitter},
+		#{agentStaff},
+		#{submitTime},
+		#{evaluationStatus},
+		#{paymentStatus},
+		#{receiveTheFeeStaus},
+		#{reviewTheWay});
+
+	</insert>
+
+	<!-- 添加作品 -->
+
+	<insert id="insertWorks" parameterType="java.util.List">
+
+		INSERT INTO works(phone_number,
+		uuid,
+		title,
+		content,
+		image_content_path,
+		creation_time,
+		is_it_open,
+		agent_list_uuid)
+		VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=" , ">
+			(#{item.phoneNumber},
+			#{item.uuid},
+			#{item.title},
+			#{item.content},
+			#{item.imageContentPath},
+			#{item.creationTime},
+			#{item.isItOpen},
+			#{item.agentListUuid})
+		</foreach>
+
+
+	</insert>
+
+	<!-- 添加缴费记录 -->
+
+	<insert id="insertCostInfo" parameterType="com.sound.writer.pojo.CostInfo">
+
+		INSERT INTO
+		cost_info(uuid,
+		works_list_uuid,
+		amount,
+		time_of_occurrence)
+		VALUES
+		(#{uuid},
+		#{worksListUuid},
+		#{amount},
+		#{timeOfOccurrence});
+
+	</insert>
+
+	<!-- 插入评价结果 -->
+	<insert id="insertChangeResult" parameterType="com.sound.writer.pojo.ChangeTheResult">
+		INSERT INTO
+		writer.change_the_result(uuid,
+		agent_list_uuid,
+		works_score,
+		work_evaluation,
+		dealer,
+		deal_time)
+		VALUES (#{uuid},
+		#{agentListUuid},
+		#{worksScore},
+		#{workEvaluation},
+		#{dealer},
+		#{dealTime});
+
+	</insert>
+
+	<!-- 将代办评阅状态 修改为 已阅 -->
+	<update id="updateAgentEvaluationStatusByUUID" parameterType="String">
+
+		UPDATE writer.agent_list
+		SET evaluation_status = '1'
+		WHERE uuid =
+		#{agentUUID}
+
+	</update>
+
+	<!-- 保存教师评阅后的图片 -->
+
+	<insert id="insertApprovedWorks" parameterType="java.util.List">
+
+		INSERT INTO writer.approved_works(uuid,
+		agent_list_uuid,
+		image_path,
+		approved_time)
+		VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=" , ">
+			(#{item.uuid},#{item.agentListUuid},#{item.imagePath},#{item.approvedTime})
+		</foreach>
+
+	</insert>
+
+	<!-- 新增费用领取记录 -->
+	<insert id="insertReceiveFeeRecord" parameterType="com.sound.writer.pojo.ReceiveFeeRecord">
+
+		INSERT INTO
+		writer.receive_fee_record
+		(uuid, works_list_uuid, receive_the_amount,
+		receive_time, recipients)
+		VALUES (#{uuid}, #{worksListUuid},
+		#{receiveTheAmount}, #{receiveTime},
+		#{recipients});
+
+	</insert>
+
+	<!-- 增加钱包金额 -->
+
+	<update id="addWalletMoney" parameterType="com.sound.writer.pojo.ReceiveFeeRecord">
+
+		UPDATE writer.wallet
+		SET Amount = Amount + #{receiveTheAmount}
+		WHERE phone_number =
+		#{recipients}
+
+	</update>
+
+	<!-- 修改已办任务的费用领取状态 -->
+	<update id="updateAgentReceiveTheFeeStaus" parameterType="String">
+
+		UPDATE
+		writer.agent_list
+		SET receive_the_fee_staus = '1'
+		WHERE uuid =
+		#{agentUUID} and evaluation_status = '1'
+
+	</update>
+
+
+	<!-- 新增钱包账号 -->
+
+	<insert id="addWallet" parameterType="com.sound.writer.pojo.Wallet">
+
+		INSERT INTO writer.wallet
+		(uuid, phone_number, Amount)
+		VALUES (#{uuid}, #{phoneNumber},
+		#{amount})
+
+	</insert>
+
+
+
+</mapper>

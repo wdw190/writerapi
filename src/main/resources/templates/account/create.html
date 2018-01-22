@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+
+<meta charset="utf-8"></meta>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<meta name="description" content=""></meta>
+<meta name="author" content=""></meta>
+
+<title>动力电池配置系統--电池箱参数维护</title>
+<link rel="shortcut icon" th:href="@{/icon/logo.ico}" />
+<!-- Bootstrap Core CSS -->
+<!-- Bootstrap Core CSS -->
+<link href="../home/vendor/bootstrap/css/bootstrap.min.css"
+	th:href="@{/home/vendor/bootstrap/css/bootstrap.min.css}"
+	rel="stylesheet"></link>
+
+</head>
+
+<body>
+
+	<div class="container">
+
+		<div sec:authorize="isAuthenticated()">
+
+			<form class="form-horizontal" id="newForm"
+				th:action="@{/account/adddata}" method="post">
+				<fieldset>
+					<legend>新增用户</legend>
+
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="username">用户名</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="username"
+								placeholder="请输入用户名" name="username"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="password">密码</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="password"
+								name="password" placeholder="请输入新密码" required="required"
+								pattern="(?=^.{8,25}$)(?=(?:.*?\d){1})(?=.*[a-z])(?=(?:.*?[A-Z]){1})(?=(?:.*?[!@#$%*()_+^&amp;}{:;?.]){1})(?!.*\s)[0-9a-zA-Z!@#$%*()_+^&amp;]*$"
+								title="请输入新密碼，例如Demo123!"></input>
+							<p class="help-block">要求密码长度最少8位，包含至少1个特殊字符，1个数字，1个大写字母和一些小写字母</p>
+						</div>
+					</div>
+					<!-- 
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="cbs1">用户角色</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="checkbox" id="role1" name="role1" value="ROLE_ADMIN" />管理员
+							<input type="checkbox" id="role2" name="role2" checked="checked" />普通用户
+
+
+						</div>
+					</div> -->
+
+					<div class="form-group">
+
+						<div class="col-xs-12 col-md-offset-3 col-md-9 ">
+							<button type="submit" class="btn btn-primary btn-lg btn-block">保存</button>
+							<a th:href="@{/accountmaintain/index}"
+								class="btn btn-info btn-lg btn-block">返回</a>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+
+
+
+		<!-- /.row -->
+		<!-- /.row -->
+		<div class="row">
+
+			<div class="modal fade" id="alertmodalsuccess">
+				<div class="modal-content">
+					<!-- <div class="modal-dialog"> -->
+					<div class="modal-header">
+						<a class="close" data-dismiss="modal">×</a>
+						<h3>提示信息-成功</h3>
+					</div>
+					<div class="modal-content">
+						<h4>【成功】</h4>
+						<p>成功创建新用户!!!</p>
+					</div>
+					<div class="modal-footer">
+						<a href="#" class="btn btn-success" data-dismiss="modal">关闭</a>
+					</div>
+					<!-- </div>-->
+				</div>
+			</div>
+			<div class="modal fade" id="alertmodalexist">
+				<div class="modal-content">
+					<!-- <div class="modal-dialog"> -->
+					<div class="modal-header">
+						<a class="close" data-dismiss="modal">×</a>
+						<h3>提示信息-已存在</h3>
+					</div>
+					<div class="modal-content">
+						<h4>【存在】</h4>
+						<p>用户已存在，请修改用户名后重试！！！</p>
+					</div>
+					<div class="modal-footer">
+						<a href="#" class="btn btn-success" data-dismiss="modal">关闭</a>
+					</div>
+					<!-- </div>-->
+				</div>
+			</div>
+
+			<div class="modal fade" id="alertmodalfailure">
+				<div class="modal-content">
+					<!-- <div class="modal-dialog"> -->
+					<div class="modal-header">
+						<a class="close" data-dismiss="modal">×</a>
+						<h3>提示信息-失败</h3>
+					</div>
+					<div class="modal-content">
+						<h4>【失败】</h4>
+						<p>新增用户失败，请重试!!!.</p>
+					</div>
+					<div class="modal-footer">
+						<a href="#" class="btn btn-success" data-dismiss="modal">关闭</a>
+					</div>
+					<!-- </div>-->
+				</div>
+			</div>
+			<!-- /.row -->
+
+
+			<!-- /#page-wrapper -->
+
+		</div>
+		<!-- /.row -->
+		<!-- /.row -->
+
+		<!-- /#page-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+	<!-- logoutform -->
+	<div th:replace="fragments/header :: logoutform"></div>
+
+	<!-- jQuery -->
+	<script src="../home/vendor/jquery/jquery.min.js"
+		th:src="@{/home/vendor/jquery/jquery.min.js}"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="../home/vendor/bootstrap/js/bootstrap.min.js"
+		th:src="@{/home/vendor/bootstrap/js/bootstrap.min.js}"></script>
+
+	<!-- Metis Menu Plugin JavaScript -->
+	<script src="../home/vendor/metisMenu/metisMenu.min.js"
+		th:src="@{/home/vendor/metisMenu/metisMenu.min.js}"></script>
+
+	<!-- Morris Charts JavaScript -->
+	<script src="../home/vendor/raphael/raphael.min.js"
+		th:src="@{/home/vendor/raphael/raphael.min.js}"></script>
+	<script src="../home/vendor/morrisjs/morris.min.js"
+		th:src="@{/home/vendor/morrisjs/morris.min.js}"></script>
+	<script src="../home/data/morris-data.js"
+		th:src="@{/home/data/morris-data.js}"></script>
+
+	<!-- DataTables JavaScript -->
+	<script src="../home/vendor/datatables/js/jquery.dataTables.min.js"
+		th:src="@{/home/vendor/datatables/js/jquery.dataTables.min.js}"></script>
+	<script
+		src="../home/vendor/datatables-plugins/dataTables.bootstrap.min.js"
+		th:src="@{/home/vendor/datatables-plugins/dataTables.bootstrap.min.js}"></script>
+	<script
+		src="../home/vendor/datatables-responsive/dataTables.responsive.js"
+		th:src="@{/home/vendor/datatables-responsive/dataTables.responsive.js}"></script>
+
+
+	<!-- Custom Theme JavaScript -->
+	<script src="../home/dist/js/sb-admin-2.js"
+		th:src="@{/home/dist/js/sb-admin-2.js}"></script>
+	<script th:src="@{/twitter-bootstrap-v2/js/bootstrap-modal.js}"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			$('#newForm').on('submit', function(event) {
+				var $form = $(this);
+
+				event.preventDefault();
+
+				checkData();
+
+			});
+
+		});
+
+		function checkData() {
+
+			var queryPojo = new Object();
+
+			queryPojo.username = $('#username').val();
+
+			var json = JSON.stringify(queryPojo);
+
+			//alert(json);
+
+			$.ajax({
+				type : "POST",
+				contentType : 'application/json',
+				url : "/soundapp/account/checkuser",
+				data : json
+			}).then(function(data) {
+
+				if (data.flag == 'exist') {
+
+					$('#alertmodalexist').modal('show');
+
+				} else {
+					queryData();
+				}
+
+			});//then方法结束
+
+		}
+
+		function queryData() {
+
+			var queryPojo = new Object();
+
+			queryPojo.username = $('#username').val();
+			queryPojo.password = $('#password').val();
+
+			var json = JSON.stringify(queryPojo);
+
+			//alert(json);
+
+			$.ajax({
+				type : $('#newForm').attr("method"),
+				contentType : 'application/json',
+				url : $('#newForm').attr("action"),
+				data : json
+			}).then(function(data) {
+
+				if (data.flag == 'S') {
+
+					$('#alertmodalsuccess').modal('show');
+
+				} else {
+					$('#alertmodalfailure').modal('show');
+				}
+
+			});//then方法结束
+
+		}
+	</script>
+</body>
+
+</html>

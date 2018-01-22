@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+
+<meta charset="utf-8"></meta>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<meta name="description" content=""></meta>
+<meta name="author" content=""></meta>
+
+<title>动力电池配置系統--电池箱参数查看/修改</title>
+<link rel="shortcut icon" th:href="@{/icon/logo.ico}" />
+<!-- Bootstrap Core CSS -->
+<!-- Bootstrap Core CSS -->
+<link href="../home/vendor/bootstrap/css/bootstrap.min.css"
+	th:href="@{/home/vendor/bootstrap/css/bootstrap.min.css}"
+	rel="stylesheet"></link>
+</head>
+
+<body>
+
+	<div class="container">
+
+
+		<div sec:authorize="isAuthenticated()">
+
+			<form class="form-horizontal" id="updateForm"
+				th:action="@{/batteryparam/update}" method="post">
+				<fieldset>
+					<legend>电池箱参数查看/修改</legend>
+
+
+					<div class="form-group">
+
+						<label class="control-label col-xs-12  col-md-3 " for="id">ID号</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="id" name="id"
+								th:value="${batteryparamviewresult.id}" disabled="disabled"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="xxh">箱型号</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="xxh" name="xxh"
+								th:value="${batteryparamviewresult.xxh}" disabled="disabled"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="cpbh">产品编号</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="cpbh" name="cpbh"
+								th:value="${batteryparamviewresult.cpbh}" disabled="disabled"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="dm">代码</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="dm" name="dm"
+								th:value="${batteryparamviewresult.dm}" disabled="disabled"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="cbs1">串并数</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="cbs1" name="cbs1"
+								th:value="${batteryparamviewresult.cbs1}" disabled="disabled"></input>
+
+							<input type="text" class="form-control" id="cbs2" name="cbs2"
+								th:value="${batteryparamviewresult.cbs2}" disabled="disabled"></input>
+
+							<input type="text" class="form-control" id="cbs3" name="cbs3"
+								th:value="${batteryparamviewresult.cbs3}" disabled="disabled"></input>
+
+							<input type="text" class="form-control" id="cbs4" name="cbs4"
+								th:value="${batteryparamviewresult.cbs4}" disabled="disabled"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="dtdxbcdl">单体电芯标称电量</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="dtdxbcdl"
+								name="dtdxbcdl" th:value="${batteryparamviewresult.dtdxbcdl}"
+								disabled="disabled"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="dtdxsjdl">单体电芯实际电量</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="dtdxsjdl"
+								name="dtdxsjdl" th:value="${batteryparamviewresult.dtdxsjdl}"
+								disabled="disabled"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="dtdxgzdy">单体电芯工作电压</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="dtdxgzdy"
+								name="dtdxgzdy" th:value="${batteryparamviewresult.dtdxgzdy}"
+								disabled="disabled"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="dxdl">典型电量</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="dxdl" name="dxdl"
+								th:value="${batteryparamviewresult.dxdl}" disabled="disabled"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="sjdl">实际电量</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="sjdl" name="sjdl"
+								th:value="${batteryparamviewresult.sjdl}" disabled="disabled"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="zlinptc">质量KG(±5%)含PTC</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="zlinptc"
+								name="zlinptc" th:value="${batteryparamviewresult.zlinptc}"
+								disabled="disabled"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="zlexptc">质量KG(±5%)不含PTC</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="zlexptc"
+								name="zlexptc" th:value="${batteryparamviewresult.zlexptc}"
+								disabled="disabled"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 "
+							for="dxnlmdinptc">典型能量密度wh/kg含PTC</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="dxnlmdinptc"
+								name="dxnlmdinptc"
+								th:value="${batteryparamviewresult.dxnlmdinptc}"
+								disabled="disabled"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 "
+							for="dxnlmdexptc">典型能量密度wh/kg不含PTC</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="dxnlmdexptc"
+								name="dxnlmdexptc"
+								th:value="${batteryparamviewresult.dxnlmdexptc}"
+								disabled="disabled"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 "
+							for="sjnlmdinptc">实际能量密度wh/kg含PTC</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="sjnlmdinptc"
+								name="sjnlmdinptc"
+								th:value="${batteryparamviewresult.sjnlmdinptc}"
+								disabled="disabled"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 "
+							for="sjnlmdexptc">实际能量密度wh/kg不含PTC</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="sjnlmdexptc"
+								name="sjnlmdexptc"
+								th:value="${batteryparamviewresult.sjnlmdexptc}"
+								disabled="disabled"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="xtrl">箱体容量AH</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="xtrl" name="xtrl"
+								th:value="${batteryparamviewresult.xtrl}" disabled="disabled"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="xtdy">箱体电压V</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="xtdy" name="xtdy"
+								th:value="${batteryparamviewresult.xtdy}" disabled="disabled"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="bzxczxl">标准箱成组效率含PTC</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="bzxczxl"
+								name="bzxczxl" th:value="${batteryparamviewresult.bzxczxl}"
+								disabled="disabled"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 "
+							for="bzxczxlexptc">标准箱成组效率不含PTC</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="bzxczxlexptc"
+								name="bzxczxlexptc"
+								th:value="${batteryparamviewresult.bzxczxlexptc}"
+								disabled="disabled"></input>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="cltx">材料体系</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="cltx" name="cltx"
+								th:value="${batteryparamviewresult.cltx}" disabled="disabled"></input>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="zdcc">最大尺寸</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="zdcc" name="zdcc"
+								th:value="${batteryparamviewresult.zdcc}" disabled="disabled"></input>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="fsfcdj">防水防尘等级</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="fsfcdj" name="fsfcdj"
+								th:value="${batteryparamviewresult.fsfcdj}" disabled="disabled"></input>
+						</div>
+					</div>
+
+
+
+					<div class="form-group">
+
+						<div class="col-xs-12 col-md-12 ">
+							<div class="col-xs-12 col-md-offset-4 col-md-2">
+								<button type="submit" class="btn btn-primary btn-lg btn-block"
+									id="savebtn">保存</button>
+							</div>
+							<div class="col-xs-12 col-md-2">
+								<button class="btn btn-info btn-lg btn-block" id="updatebtn">修改</button>
+							</div>
+							<div class="col-xs-12 col-md-2">
+								<button class="btn btn-warning btn-lg btn-block" id="viewbtn">查看</button>
+							</div>
+							<div class="col-xs-12 col-md-2">
+								<a th:href="@{/battery/maintain/index}"
+									class="btn btn-danger btn-lg btn-block" id="closebtn"
+									role="button">返回</a>
+							</div>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+
+
+		</div>
+
+		<!-- /.row -->
+		<div class="row">
+
+			<div class="modal fade" id="alertmodalsuccess">
+				<div class="modal-content">
+					<!-- <div class="modal-dialog"> -->
+					<div class="modal-header">
+						<a class="close" data-dismiss="modal">×</a>
+						<h3>提示信息</h3>
+					</div>
+					<div class="modal-content">
+						<h4>成功</h4>
+						<p>电池箱技术参数修改成功.</p>
+					</div>
+					<div class="modal-footer">
+						<a href="#" class="btn btn-success" data-dismiss="modal">关闭</a>
+					</div>
+					<!-- </div>-->
+				</div>
+			</div>
+			<!-- /.row -->
+
+
+			<!-- /#page-wrapper -->
+
+		</div>
+		<!-- /#wrapper -->
+	</div>
+
+
+	<!-- jQuery -->
+	<script src="../home/vendor/jquery/jquery.min.js"
+		th:src="@{/home/vendor/jquery/jquery.min.js}"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="../home/vendor/bootstrap/js/bootstrap.min.js"
+		th:src="@{/home/vendor/bootstrap/js/bootstrap.min.js}"></script>
+
+	<!-- Metis Menu Plugin JavaScript -->
+	<script src="../home/vendor/metisMenu/metisMenu.min.js"
+		th:src="@{/home/vendor/metisMenu/metisMenu.min.js}"></script>
+
+	<!-- Morris Charts JavaScript -->
+	<script src="../home/vendor/raphael/raphael.min.js"
+		th:src="@{/home/vendor/raphael/raphael.min.js}"></script>
+	<script src="../home/vendor/morrisjs/morris.min.js"
+		th:src="@{/home/vendor/morrisjs/morris.min.js}"></script>
+	<script src="../home/data/morris-data.js"
+		th:src="@{/home/data/morris-data.js}"></script>
+
+	<!-- DataTables JavaScript -->
+	<script src="../home/vendor/datatables/js/jquery.dataTables.min.js"
+		th:src="@{/home/vendor/datatables/js/jquery.dataTables.min.js}"></script>
+	<script
+		src="../home/vendor/datatables-plugins/dataTables.bootstrap.min.js"
+		th:src="@{/home/vendor/datatables-plugins/dataTables.bootstrap.min.js}"></script>
+	<script
+		src="../home/vendor/datatables-responsive/dataTables.responsive.js"
+		th:src="@{/home/vendor/datatables-responsive/dataTables.responsive.js}"></script>
+
+
+	<!-- Custom Theme JavaScript -->
+	<script src="../home/dist/js/sb-admin-2.js"
+		th:src="@{/home/dist/js/sb-admin-2.js}"></script>
+	<script th:src="@{/twitter-bootstrap-v2/js/bootstrap-modal.js}"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			initBtn();
+
+			/*
+			$('#updatebtn').click(function() {
+
+			});*/
+
+			//修改按钮
+			$('#updatebtn').on('click', function(event) {
+
+				showBtn();
+
+				event.preventDefault(); //阻止默认行为
+
+			});
+
+			//查看按钮
+			$('#viewbtn').on('click', function(event) {
+
+				hideBtn();
+
+				//$('#id').prop('disabled', true);
+				$('#xxh').prop('disabled', true);
+				$('#cpbh').prop('disabled', true);
+				$('#dm').prop('disabled', true);
+				$('#cbs1').prop('disabled', true);
+				$('#cbs2').prop('disabled', true);
+				$('#cbs3').prop('disabled', true);
+				$('#cbs4').prop('disabled', true);
+				$('#dtdxbcdl').prop('disabled', true);
+				$('#dtdxsjdl').prop('disabled', true);
+				$('#dtdxgzdy').prop('disabled', true);
+				$('#dxdl').prop('disabled', true);
+				$('#sjdl').prop('disabled', true);
+				$('#zlinptc').prop('disabled', true);
+				$('#zlexptc').prop('disabled', true);
+				$('#dxnlmdinptc').prop('disabled', true);
+				$('#dxnlmdexptc').prop('disabled', true);
+				$('#sjnlmdinptc').prop('disabled', true);
+				$('#sjnlmdexptc').prop('disabled', true);
+				$('#xtrl').prop('disabled', true);
+				$('#xtdy').prop('disabled', true);
+				$('#bzxczxl').prop('disabled', true);
+				$('#bzxczxlexptc').prop('disabled', true);
+
+				$('#cltx').prop('disabled', true);
+				$('#zdcc').prop('disabled', true);
+				$('#fsfcdj').prop('disabled', true);
+
+				event.preventDefault(); //阻止默认行为
+
+			});
+
+			/*$('#closebtn').on('click', function(event) {
+
+				window.close();
+				event.preventDefault(); //阻止默认行为
+
+			}); */
+
+			$('#updateForm').on('submit', function(event) {
+				var $form = $(this);
+
+				event.preventDefault();
+
+				updateData();
+			});
+
+		}); //jQuery end
+
+		function initBtn() {
+
+			$('#savebtn').hide();
+			$('#viewbtn').hide();
+
+		}
+
+		function hideBtn() {
+
+			$('#savebtn').hide();
+			$('#viewbtn').hide();
+			$('#updatebtn').show();
+
+		}
+
+		function showBtn() {
+
+			$('#updatebtn').hide();
+			$('#savebtn').show();
+			$('#viewbtn').show();
+
+			//$('#id').prop('disabled', false);
+			$('#xxh').prop('disabled', false);
+			$('#cpbh').prop('disabled', false);
+			$('#dm').prop('disabled', false);
+			$('#cbs1').prop('disabled', false);
+			$('#cbs2').prop('disabled', false);
+			$('#cbs3').prop('disabled', false);
+			$('#cbs4').prop('disabled', false);
+			$('#dtdxbcdl').prop('disabled', false);
+			$('#dtdxsjdl').prop('disabled', false);
+			$('#dtdxgzdy').prop('disabled', false);
+			$('#dxdl').prop('disabled', false);
+			$('#sjdl').prop('disabled', false);
+			$('#zlinptc').prop('disabled', false);
+			$('#zlexptc').prop('disabled', false);
+			$('#dxnlmdinptc').prop('disabled', false);
+			$('#dxnlmdexptc').prop('disabled', false);
+			$('#sjnlmdinptc').prop('disabled', false);
+			$('#sjnlmdexptc').prop('disabled', false);
+			$('#xtrl').prop('disabled', false);
+			$('#xtdy').prop('disabled', false);
+			$('#bzxczxl').prop('disabled', false);
+			$('#bzxczxlexptc').prop('disabled', false);
+
+			$('#cltx').prop('disabled', false);
+			$('#zdcc').prop('disabled', false);
+			$('#fsfcdj').prop('disabled', false);
+
+		}
+
+		function updateData() {
+
+			var queryPojo = new Object();
+
+			queryPojo.id = $('#id').val();
+			queryPojo.xxh = $('#xxh').val();
+			queryPojo.cpbh = $('#cpbh').val();
+			queryPojo.dm = $('#dm').val();
+			queryPojo.cbs1 = $('#cbs1').val();
+			queryPojo.cbs2 = $('#cbs2').val();
+			queryPojo.cbs3 = $('#cbs3').val();
+			queryPojo.cbs4 = $('#cbs4').val();
+			queryPojo.dtdxbcdl = $('#dtdxbcdl').val();
+			queryPojo.dtdxsjdl = $('#dtdxsjdl').val();
+			queryPojo.dtdxgzdy = $('#dtdxgzdy').val();
+			queryPojo.dxdl = $('#dxdl').val();
+			queryPojo.sjdl = $('#sjdl').val();
+			queryPojo.zlinptc = $('#zlinptc').val();
+			queryPojo.zlexptc = $('#zlexptc').val();
+			queryPojo.dxnlmdinptc = $('#dxnlmdinptc').val();
+			queryPojo.dxnlmdexptc = $('#dxnlmdexptc').val();
+			queryPojo.sjnlmdinptc = $('#sjnlmdinptc').val();
+			queryPojo.sjnlmdexptc = $('#sjnlmdexptc').val();
+			queryPojo.xtrl = $('#xtrl').val();
+			queryPojo.xtdy = $('#xtdy').val();
+			queryPojo.bzxczxl = $('#bzxczxl').val();
+			queryPojo.bzxczxlexptc = $('#bzxczxlexptc').val();
+
+			queryPojo.cltx = $('#cltx').val();
+			queryPojo.zdcc = $('#zdcc').val();
+			queryPojo.fsfcdj = $('#fsfcdj').val();
+
+			var json = JSON.stringify(queryPojo);
+
+			//alert(json);
+
+			$.ajax({
+				type : $('#updateForm').attr("method"),
+				contentType : 'application/json',
+				url : $('#updateForm').attr("action"),
+				data : json
+			}).then(function(data) {
+
+				if (data.flag == 'S') {
+
+					$('#alertmodalsuccess').modal('show');
+
+				} else {
+					alert("NO");
+				}
+
+			});//then方法结束
+
+		}
+	</script>
+</body>
+
+</html>

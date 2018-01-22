@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+
+<meta charset="utf-8"></meta>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<meta name="description" content=""></meta>
+<meta name="author" content=""></meta>
+
+<title>动力电池配置系統--电池箱参数维护</title>
+<link rel="shortcut icon" th:href="@{/icon/logo.ico}" />
+<!-- Bootstrap Core CSS -->
+<!-- Bootstrap Core CSS -->
+<link href="../home/vendor/bootstrap/css/bootstrap.min.css"
+	th:href="@{/home/vendor/bootstrap/css/bootstrap.min.css}"
+	rel="stylesheet"></link>
+
+</head>
+
+<body>
+
+	<div class="container">
+
+		<div sec:authorize="isAuthenticated()">
+
+			<form class="form-horizontal" id="newForm"
+				th:action="@{/batteryparam/save}" method="post">
+				<fieldset>
+					<legend>新增电池箱(参数维护)</legend>
+
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="xxh">箱型号</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="xxh" name="xxh"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="cpbh">产品编号</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="cpbh" name="cpbh"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="dm">代码</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="dm" name="dm"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="cbs1">串并数</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="cbs1" name="cbs1"
+								required="required" pattern="^\+?[1-9][0-9]*$" title="请输入正整数"></input>
+
+							<input type="text" class="form-control" id="cbs2" name="cbs2"></input>
+
+							<input type="text" class="form-control" id="cbs3" name="cbs3"
+								required="required" pattern="^\+?[1-9][0-9]*$" title="请输入正整数"></input>
+
+							<input type="text" class="form-control" id="cbs4" name="cbs4"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="dtdxbcdl">单体电芯标称电量</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="dtdxbcdl"
+								name="dtdxbcdl" required="required"
+								pattern="^(([0-9]+[\.]?[0-9]+)|[1-9])$" title="请输入正数"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="dtdxsjdl">单体电芯实际电量</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="dtdxsjdl"
+								name="dtdxsjdl" required="required"
+								pattern="^(([0-9]+[\.]?[0-9]+)|[1-9])$" title="请输入正数"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="dtdxgzdy">单体电芯工作电压</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="dtdxgzdy"
+								name="dtdxgzdy" required="required"
+								pattern="^(([0-9]+[\.]?[0-9]+)|[1-9])$" title="请输入正数"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="dxdl">典型电量</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="dxdl" name="dxdl"
+								required="required" pattern="^(([0-9]+[\.]?[0-9]+)|[1-9])$"
+								title="请输入正数"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="sjdl">实际电量</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="sjdl" name="sjdl"
+								required="required" pattern="^(([0-9]+[\.]?[0-9]+)|[1-9])$"
+								title="请输入正数"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="zlinptc">质量KG(±5%)含PTC</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="zlinptc"
+								name="zlinptc" required="required"
+								pattern="^(([0-9]+[\.]?[0-9]+)|[1-9])$" title="请输入正数"></input><span
+								style="color: blue;"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="zlexptc">质量KG(±5%)不含PTC</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="zlexptc"
+								name="zlexptc" required="required"
+								pattern="^(([0-9]+[\.]?[0-9]+)|[1-9])$" title="请输入正数"></input><span
+								style="color: red;"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 "
+							for="dxnlmdinptc">典型能量密度wh/kg含PTC</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="dxnlmdinptc"
+								name="dxnlmdinptc" required="required"
+								pattern="^(([0-9]+[\.]?[0-9]+)|[1-9])$" title="请输入正数"></input><span
+								style="color: blue;"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 "
+							for="dxnlmdexptc">典型能量密度wh/kg不含PTC</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="dxnlmdexptc"
+								name="dxnlmdexptc" required="required"
+								pattern="^(([0-9]+[\.]?[0-9]+)|[1-9])$" title="请输入正数"></input><span
+								style="color: red;"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 "
+							for="sjnlmdinptc">实际能量密度wh/kg含PTC</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="sjnlmdinptc"
+								name="sjnlmdinptc" required="required"
+								pattern="^(([0-9]+[\.]?[0-9]+)|[1-9])$" title="请输入正数"></input><span
+								style="color: blue;"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 "
+							for="sjnlmdexptc">实际能量密度wh/kg不含PTC</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="sjnlmdexptc"
+								name="sjnlmdexptc" required="required"
+								pattern="^(([0-9]+[\.]?[0-9]+)|[1-9])$" title="请输入正数"></input><span
+								style="color: red;"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="xtrl">箱体容量AH</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="xtrl" name="xtrl"
+								required="required" pattern="^(([0-9]+[\.]?[0-9]+)|[1-9])$"
+								title="请输入正数"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="xtdy">箱体电压V</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="xtdy" name="xtdy"
+								required="required" pattern="^(([0-9]+[\.]?[0-9]+)|[1-9])$"
+								title="请输入正数"></input>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="bzxczxl">标准箱成组效率含PTC</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="bzxczxl"
+								name="bzxczxl" required="required"
+								pattern="^(([0-9]+[\.]?[0-9]+)|[1-9])$" title="请输入正数"></input><span
+								style="color: blue;"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 "
+							for="bzxczxlexptc">标准箱成组效率不含PTC</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="bzxczxlexptc"
+								name="bzxczxlexptc" required="required"
+								pattern="^(([0-9]+[\.]?[0-9]+)|[1-9])$" title="请输入正数"></input><span
+								style="color: red;"></span>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="cltx">材料体系</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="cltx" name="cltx"
+								required="required" title="材料体系"></input><span
+								style="color: red;"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="zdcc">最大尺寸</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="zdcc" name="zdcc"
+								required="required" title="最大尺寸"></input><span
+								style="color: red;"></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12  col-md-3 " for="fsfcdj">防水防尘等级</label>
+						<div class="col-xs-12 col-md-9 ">
+							<input type="text" class="form-control" id="fsfcdj" name="fsfcdj"
+								required="required" title="防水防尘等级"></input><span
+								style="color: red;"></span>
+						</div>
+					</div>
+
+
+
+					<div class="form-group">
+
+						<div class="col-xs-12 col-md-12 ">
+							<button type="submit" class="btn btn-primary btn-lg btn-block">保存</button>
+							<a th:href="@{/battery/maintain/index}"
+								class="btn btn-info btn-lg btn-block">返回</a>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+
+
+
+		<!-- /.row -->
+		<!-- /.row -->
+		<div class="row">
+
+			<div class="modal fade" id="alertmodalsuccess">
+				<div class="modal-content">
+					<!-- <div class="modal-dialog"> -->
+					<div class="modal-header">
+						<a class="close" data-dismiss="modal">×</a>
+						<h3>提示信息-成功</h3>
+					</div>
+					<div class="modal-content">
+						<h4>成功</h4>
+						<p>电池箱技术参数新增保存成功！！.</p>
+					</div>
+					<div class="modal-footer">
+						<a href="#" class="btn btn-success" data-dismiss="modal">关闭</a>
+					</div>
+					<!-- </div>-->
+				</div>
+			</div>
+
+			<div class="modal fade" id="alertmodalfailure">
+				<div class="modal-content">
+					<!-- <div class="modal-dialog"> -->
+					<div class="modal-header">
+						<a class="close" data-dismiss="modal">×</a>
+						<h3>提示信息-失败</h3>
+					</div>
+					<div class="modal-content">
+						<h4>失败</h4>
+						<p>电池箱技术参数新增保存失敗，請重試!!!.</p>
+					</div>
+					<div class="modal-footer">
+						<a href="#" class="btn btn-success" data-dismiss="modal">关闭</a>
+					</div>
+					<!-- </div>-->
+				</div>
+			</div>
+			<!-- /.row -->
+
+
+			<!-- /#page-wrapper -->
+
+		</div>
+		<!-- /.row -->
+		<!-- /.row -->
+
+		<!-- /#page-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+	<!-- logoutform -->
+	<div th:replace="fragments/header :: logoutform"></div>
+
+	<!-- jQuery -->
+	<script src="../home/vendor/jquery/jquery.min.js"
+		th:src="@{/home/vendor/jquery/jquery.min.js}"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="../home/vendor/bootstrap/js/bootstrap.min.js"
+		th:src="@{/home/vendor/bootstrap/js/bootstrap.min.js}"></script>
+
+	<!-- Metis Menu Plugin JavaScript -->
+	<script src="../home/vendor/metisMenu/metisMenu.min.js"
+		th:src="@{/home/vendor/metisMenu/metisMenu.min.js}"></script>
+
+	<!-- Morris Charts JavaScript -->
+	<script src="../home/vendor/raphael/raphael.min.js"
+		th:src="@{/home/vendor/raphael/raphael.min.js}"></script>
+	<script src="../home/vendor/morrisjs/morris.min.js"
+		th:src="@{/home/vendor/morrisjs/morris.min.js}"></script>
+	<script src="../home/data/morris-data.js"
+		th:src="@{/home/data/morris-data.js}"></script>
+
+	<!-- DataTables JavaScript -->
+	<script src="../home/vendor/datatables/js/jquery.dataTables.min.js"
+		th:src="@{/home/vendor/datatables/js/jquery.dataTables.min.js}"></script>
+	<script
+		src="../home/vendor/datatables-plugins/dataTables.bootstrap.min.js"
+		th:src="@{/home/vendor/datatables-plugins/dataTables.bootstrap.min.js}"></script>
+	<script
+		src="../home/vendor/datatables-responsive/dataTables.responsive.js"
+		th:src="@{/home/vendor/datatables-responsive/dataTables.responsive.js}"></script>
+
+
+	<!-- Custom Theme JavaScript -->
+	<script src="../home/dist/js/sb-admin-2.js"
+		th:src="@{/home/dist/js/sb-admin-2.js}"></script>
+	<script th:src="@{/twitter-bootstrap-v2/js/bootstrap-modal.js}"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			$('#newForm').on('submit', function(event) {
+				var $form = $(this);
+
+				event.preventDefault();
+
+				queryData();
+			});
+
+		});
+
+		function queryData() {
+
+			var queryPojo = new Object();
+
+			queryPojo.xxh = $('#xxh').val();
+			queryPojo.cpbh = $('#cpbh').val();
+			queryPojo.dm = $('#dm').val();
+			queryPojo.cbs1 = $('#cbs1').val();
+			queryPojo.cbs2 = $('#cbs2').val();
+			queryPojo.cbs3 = $('#cbs3').val();
+			queryPojo.cbs4 = $('#cbs4').val();
+			queryPojo.dtdxbcdl = $('#dtdxbcdl').val();
+			queryPojo.dtdxsjdl = $('#dtdxsjdl').val();
+			queryPojo.dtdxgzdy = $('#dtdxgzdy').val();
+			queryPojo.dxdl = $('#dxdl').val();
+			queryPojo.sjdl = $('#sjdl').val();
+			queryPojo.zlinptc = $('#zlinptc').val();
+			queryPojo.zlexptc = $('#zlexptc').val();
+			queryPojo.dxnlmdinptc = $('#dxnlmdinptc').val();
+			queryPojo.dxnlmdexptc = $('#dxnlmdexptc').val();
+			queryPojo.sjnlmdinptc = $('#sjnlmdinptc').val();
+			queryPojo.sjnlmdexptc = $('#sjnlmdexptc').val();
+			queryPojo.xtrl = $('#xtrl').val();
+			queryPojo.xtdy = $('#xtdy').val();
+			queryPojo.bzxczxl = $('#bzxczxl').val();
+			queryPojo.bzxczxlexptc = $('#bzxczxlexptc').val();
+			
+			queryPojo.cltx = $('#cltx').val();
+			queryPojo.zdcc = $('#zdcc').val();
+			queryPojo.fsfcdj = $('#fsfcdj').val();
+
+			var json = JSON.stringify(queryPojo);
+
+			//alert(json);
+
+			$.ajax({
+				type : $('#newForm').attr("method"),
+				contentType : 'application/json',
+				url : $('#newForm').attr("action"),
+				data : json
+			}).then(function(data) {
+
+				if (data.flag == 'S') {
+
+					$('#alertmodalsuccess').modal('show');
+
+				} else {
+					$('#alertmodalfailure').modal('show');
+				}
+
+			});//then方法结束
+
+		}
+	</script>
+</body>
+
+</html>

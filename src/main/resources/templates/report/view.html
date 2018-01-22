@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta charset="utf-8"></meta>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content=""></meta>
+<meta name="author" content=""></meta>
+
+
+<title>桑顿新能源科技有限公司E-BUS动力电池系统</title>
+<link rel="shortcut icon" th:href="@{/icon/logo.ico}" />
+<!-- Bootstrap core CSS -->
+<link th:href="@{/viewpage//dist/css/bootstrap.min.css}"
+	rel="stylesheet"></link>
+
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<link
+	th:href="@{/viewpage//assets/css/ie10-viewport-bug-workaround.css}"
+	rel="stylesheet"></link>
+
+
+
+<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<script th:src="@{/viewpage/assets/js/ie-emulation-modes-warning.js}"></script>
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<!-- Bootstrap Core CSS -->
+<link href="../home/vendor/bootstrap/css/bootstrap.min.css"
+	th:href="@{/home/vendor/bootstrap/css/bootstrap.min.css}"
+	rel="stylesheet">
+</link>
+
+<!-- MetisMenu CSS -->
+<link href="../home/vendor/metisMenu/metisMenu.min.css"
+	th:href="@{/home/vendor/metisMenu/metisMenu.min.css}" rel="stylesheet"></link>
+
+<!-- DataTables CSS -->
+<link href="../home/vendor/datatables-plugins/dataTables.bootstrap.css"
+	th:href="@{/home/vendor/datatables-plugins/dataTables.bootstrap.css}"
+	rel="stylesheet"></link>
+<!-- DataTables Responsive CSS -->
+<link
+	href="../home/vendor/datatables-responsive/dataTables.responsive.css"
+	th:href="@{/home/vendor/datatables-responsive/dataTables.responsive.css}"
+	rel="stylesheet"></link>
+
+<!-- Custom CSS -->
+<link href="../home/dist/css/sb-admin-2.css"
+	th:href="@{/home/dist/css/sb-admin-2.css}" rel="stylesheet"></link>
+
+<!-- Morris Charts CSS -->
+<link href="../home/vendor/morrisjs/morris.css"
+	th:href="@{/home/vendor/morrisjs/morris.css}" rel="stylesheet"></link>
+
+<!-- Custom Fonts -->
+<link href="../home/vendor/font-awesome/css/font-awesome.min.css"
+	th:href="@{/home/vendor/font-awesome/css/font-awesome.min.css}"
+	rel="stylesheet" type="text/css"></link>
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<script type="text/javascript" th:src="@{/echarts/echarts.min.js}"></script>
+<script th:src="@{/chart/Chart.js}"></script>
+
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+
+				<form class="form-horizontal" role="form">
+					<div class="form-group">
+
+						<div class="col-xs-12 col-sm-3">
+							<img alt="" class="center-block img-thumbnail"
+								th:src="@{/img/logo/logo.png}"></img>
+						</div>
+
+						<div class="col-xs-12 col-sm-9">
+							<h1 class="page-header">E-BUS动力电池系统方案</h1>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- /.col-lg-12 -->
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-md-12">
+
+				<!-- <p class="lead">
+					该E-BUS动力电池系统配置平台电压为<span th:text="${outputresult.ptdy}"></span>V，放电截止电压为<span
+						th:text="${outputresult.fdjzdy}"></span>V,充电截止电压为<span
+						th:text="${outputresult.cdjzdy}"></span>V,系统标称容量为<span
+						th:text="${outputresult.xtbcrl}"></span>Ah,系统电量为<span
+						th:text="${outputresult.xtdl}"></span>KWh,采用<span
+						th:text="${outputresult.anum}"></span>个A箱和<span
+						th:text="${outputresult.bnum}"></span>个B箱的组合方式，重量为<span
+						th:text="${outputresult.zl}"></span>Kg±5%，系统能量密度为<span
+						th:text="${outputresult.xtnlmd}"></span>Wh/kg，满足国家纯电动商用车<span
+						th:text="${outputresult.btxs}"></span>倍最高补贴标准，补贴金额为<span
+						th:text="${outputresult.btje}"></span>万元。
+				</p> -->
+
+
+				<div class="panel panel-primary table-responsive">
+					<div class="panel-heading">您选择的E-BUS动力电池系统方案具体配置数据如下：</div>
+					<!-- /.panel-heading -->
+					<div class="panel-body">
+						<table width="100%"
+							class="table table-striped table-bordered table-hover"
+							id="dataTables-results">
+							<thead>
+
+
+							</thead>
+							<tbody>
+								<tr>
+									<th>组合方式</th>
+									<td><span th:if="${outputresult.anum} > 0 "><span
+											th:text="${outputresult.anum}"></span><span>个<span
+												th:text="${outputresult.adm}"></span>箱
+										</span></span><span th:if="${outputresult.bnum} > 0 "><span
+											th:text="${outputresult.bnum}"></span><span>个<span
+												th:text="${outputresult.bdm}"></span>箱
+										</span></span></td>
+									<td sytle="padding: 20px;" rowspan="10">
+										<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+										<div id="main" style="width: 532px; height: 413px;"></div> <script
+											type="text/javascript" th:inline="javascript">
+				/* "平台电压",  "系统标称容量",
+							"系统电量", "AB箱个数","重量","系统能量密度"*/
+				    var ptdy = [[${outputresult.ptdy}]];
+					
+					var  xtbcrl= [[${outputresult.xtbcrl}]];
+					var xtdl = [[${outputresult.xtdl}]];
+					var  anum= [[${outputresult.anum}]];
+					var  bnum= [[${outputresult.bnum}]];
+					var  sumnum= anum + bnum ;
+					var  zl= [[${outputresult.zl}]];
+					var  xtnlmd= [[${outputresult.xtnlmd}]];
+					
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var option = {
+        	    title: {
+        	        text: ''
+        	    },
+        	    tooltip: {},
+        	    /*egend: {
+        	        data: ['动力电池系统配置']
+        	    },*/
+        	    radar: {
+        	    	splitNumber: 10,
+        	        // shape: 'circle',
+        	        indicator: [
+        	           { name: '平台电压(V)', max: 1000},
+        	           { name: '标称容量(Ah)', max: 500},
+        	           { name: '系统电量(Kwh)', max: 500},
+        	           { name: '系统配置方式', max: 30},
+        	           { name: '系统重量(Kg)±5%', max: 3000},
+        	           { name: '系统能量密度(Wh/kg)', max: 300}
+        	        ],
+        	        axisTick: {
+        	            show: true,alignWithLabel : true
+        	        }
+        	    },
+        	    series: [{
+        	        name: '预算 vs 开销（Budget vs spending）',
+        	        type: 'radar',
+        	        // areaStyle: {normal: {}},
+        	        data : [
+        	            {
+        	                value : [ptdy, xtbcrl, xtdl, sumnum,zl,xtnlmd],
+        	                name : '动力电池系统配置',
+        	                label: {
+                                normal: {
+                                    show: true,
+                                    formatter:function(params) {
+                                        return params.value;
+                                    }
+                                }
+                            }
+        	            }
+        	        ] //end data
+        	    }]
+        	};
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+									</td>
+
+								</tr>
+								<tr>
+
+									<th>电压平台</th>
+									<td><span th:text="${outputresult.ptdy}"></span>V</td>
+
+
+
+								</tr>
+								<tr>
+									<th>放电截止电压</th>
+									<td><span th:text="${outputresult.fdjzdy}"></span><span>V</span></td>
+
+								</tr>
+								<tr>
+									<th>充电截止电压</th>
+									<td><span th:text="${outputresult.cdjzdy}"></span><span>V</span></td>
+								</tr>
+								<tr>
+									<th>标称容量</th>
+									<td><span th:text="${outputresult.xtbcrl}"></span><span>Ah</span></td>
+								</tr>
+								<tr>
+									<th>系统电量</th>
+									<td><span th:text="${outputresult.xtdl}"></span><span>KWh</span></td>
+								</tr>
+								<tr>
+									<th>系统总质量</th>
+									<td><span th:text="${outputresult.zl}"></span><span>Kg(±5%)</span></td>
+								</tr>
+
+								<tr>
+									<th>系统能量密度</th>
+									<td><span th:text="${outputresult.xtnlmd}"></span><span>Wh/kg</span></td>
+								</tr>
+
+								<tr>
+									<th>补贴倍率</th>
+									<td><span th:text="${outputresult.btxs}"></span></td>
+								</tr>
+
+								<tr>
+									<th>补贴额度</th>
+									<td><span th:text="${outputresult.btje}"></span><span>万元</span></td>
+								</tr>
+
+							</tbody>
+						</table>
+						<!-- /.table-responsive -->
+
+					</div>
+					<!-- /.panel-body -->
+				</div>
+				<!-- /.panel -->
+
+
+			</div>
+
+		</div>
+
+
+
+		<div class="row" th:if="${outputresult.anum} > 0 ">
+			<div class="col-xs-12 col-lg-12">
+				<div class="panel panel-primary table-responsive">
+					<div class="panel-heading">
+						该方案使用了<span th:text="${outputresult.anum}"></span>个<span
+							th:text="${outputresult.adm}"></span>箱,<span
+							th:text="${outputresult.adm}"></span>箱基本信息如下：
+					</div>
+					<!-- /.panel-heading -->
+					<div class="panel-body">
+						<table width="100%"
+							class="table table-striped table-bordered table-hover"
+							id="dataTables-results">
+							<thead>
+
+
+							</thead>
+							<tbody>
+
+								<tr>
+									<th>材料体系</th>
+									<td><span th:text="${abox.cltx}"></span></td>
+									<td rowspan="4"><img alt=""
+										class="center-block img-thumbnail"
+										th:src="@{/img/battery/abox.jpg}" width="304" height="236"></img></td>
+								</tr>
+								<tr>
+									<th>产品质量</th>
+									<td><span th:text="${abox.zlexptc}"></span><span>kg±5%</span></td>
+								</tr>
+								<tr>
+
+									<th>最大尺寸</th>
+									<td><span th:text="${abox.zdcc}"></span></td>
+
+								</tr>
+								<tr>
+									<th>防水防尘等级</th>
+									<td><span th:text="${abox.fsfcdj}"></span></td>
+
+								</tr>
+
+							</tbody>
+						</table>
+						<!-- /.table-responsive -->
+
+					</div>
+					<!-- /.panel-body -->
+					<div class="panel-footer">
+						<div class="panel">
+							<div class="panel-heading">
+								<div class="row">
+									<img alt="" class="img-responsive"
+										th:src="@{/img/battery/asize.jpg}" style="z-index: -1;"></img>
+									<div class="col-xs-3"></div>
+									<div class="col-xs-9 text-right">
+
+										<div>A箱安裝尺寸</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<!-- /.panel-footer -->
+				</div>
+				<!-- /.panel -->
+			</div>
+			<!-- /.col-lg-12 -->
+
+		</div>
+
+
+		<div class="row" th:if="${outputresult.bnum} > 0 ">
+			<div class="col-xs-12 col-lg-12">
+				<div class="panel panel-primary table-responsive">
+					<div class="panel-heading">
+						该方案使用了<span th:text="${outputresult.bnum}"></span>个<span
+							th:text="${outputresult.bdm}"></span>箱,<span
+							th:text="${outputresult.bdm}"></span>箱基本信息如下：
+					</div>
+					<!-- /.panel-heading -->
+					<div class="panel-body">
+						<table width="100%"
+							class="table table-striped table-bordered table-hover"
+							id="dataTables-results">
+							<thead>
+
+
+							</thead>
+							<tbody>
+
+								<tr>
+									<th>材料体系</th>
+									<td><span th:text="${bbox.cltx}"></span></td>
+									<td rowspan="4"><img alt=""
+										class="center-block img-thumbnail"
+										th:src="@{/img/battery/bbox.jpg}" width="304" height="236"></img></td>
+								</tr>
+								<tr>
+									<th>产品质量</th>
+									<td><span th:text="${bbox.zlexptc}"></span><span>kg±5%</span></td>
+								</tr>
+								<tr>
+
+									<th>最大尺寸</th>
+									<td><span th:text="${bbox.zdcc}"></span></td>
+
+								</tr>
+								<tr>
+									<th>防水防尘等级</th>
+									<td><span th:text="${bbox.fsfcdj}"></span></td>
+
+								</tr>
+
+							</tbody>
+						</table>
+						<!-- /.table-responsive -->
+
+					</div>
+					<!-- /.panel-body -->
+					<div class="panel-footer">
+						<div class="panel">
+							<div class="panel-heading">
+								<div class="row">
+									<img alt="" class="img-responsive"
+										th:src="@{/img/battery/bsize.jpg}" style="z-index: -1;"></img>
+									<div class="col-xs-3"></div>
+									<div class="col-xs-9 text-right">
+
+										<div>B箱安裝尺寸</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<!-- /.panel-footer -->
+				</div>
+				<!-- /.panel -->
+			</div>
+			<!-- /.col-lg-12 -->
+
+		</div>
+
+
+		<div class="row">
+			<div class="col-xs-12">
+				<a th:href="@{/index}" class="btn btn-danger btn-lg btn-block"
+					role="button">返回</a>
+			</div>
+		</div>
+
+
+
+
+
+	</div>
+	<!-- /container -->
+
+
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script th:src="@{/viewpage/assets/js/ie10-viewport-bug-workaround.js}"></script>
+
+</body>
+</html>

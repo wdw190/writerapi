@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright 2015-2016 the original author or authors. Licensed under the 
+	Apache License, Version 2.0 (the "License"); you may not use this file except 
+	in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sound.account.mybatis.mapper.AccountMapper">
+
+	<resultMap id="userResultMap" type="com.sound.account.mybatis.model.UserResultM">
+		<result property="userid" column="userid" />
+		<result property="username" column="username" />
+		<result property="enabled" column="enabled" />
+		<result property="rolecode" column="rolecode" />
+		<result property="roledesc" column="roledesc" />
+
+
+	</resultMap>
+
+	<resultMap type="com.sound.account.mybatis.model.User" id="singleUserResultMap">
+		<result property="userid" column="userid" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="enabled" column="enabled" />
+
+	</resultMap>
+
+	<resultMap type="com.sound.account.mybatis.model.Roles" id="rolesResultMap">
+		<result property="roleid" column="roleid" />
+		<result property="role" column="role" />
+		<result property="roledesc" column="roledesc" />
+
+	</resultMap>
+
+	<resultMap type="com.sound.account.mybatis.model.UserRoles"
+		id="userRoleResultMap">
+		<result property="user_role_id" column="user_role_id" />
+		<result property="userid" column="userid" />
+		<result property="role" column="role" />
+	</resultMap>
+
+	<select id="selectAllUsers" parameterType="com.sound.account.mybatis.model.UserCriticalM"
+		resultMap="userResultMap">
+
+		<bind name="newusername" value="'%' + _parameter.getUsername + '%'" />
+
+		SELECT a.userid,
+		a.username,
+		a.enabled,
+		group_concat(b.role) AS rolecode,
+		group_concat(c.roledesc) AS roledesc
+		FROM users a
+		LEFT JOIN user_roles b
+		ON a.userid = b.userid
+		LEFT JOIN roles c ON b.role = c.role
+
+		<where>
+			<if test=" newusername != null and newusername != '' "> <![CDATA[ username like #{newusername} ]]>
+			</if>
+
+			<if test=" enabled != null and enabled != '' "> <![CDATA[ and enabled = #{enabled}  ]]>
+			</if>
+
+		</where>
+
+		GROUP BY
+		a.userid, a.username, a.enabled
+
+	</select>
+
+	<select id="selectUserByUserid" parameterType="Integer"
+		resultMap="singleUserResultMap">
+		SELECT userid,
+		username,
+		password,
+		enabled
+		FROM soundxp.users
+		WHERE userid = #{userid}
+
+	</select>
+	<!-- 基于用户名查询用户 -->
+	<select id="selectUserByUserName" parameterType="String"
+		resultMap="singleUserResultMap">
+		SELECT userid,
+		username,
+		password,
+		enabled
+		FROM soundxp.users
+		WHERE username = #{username}
+
+	</select>
+	<!-- 查询所有的角色 -->
+	<select id="selectAllRoles" resultMap="rolesResultMap">
+
+		SELECT roleid, role,
+		roledesc
+		FROM soundxp.roles;
+
+	</select>
+	<!-- 根据用户ID查询用户的角色 -->
+	<select id="selectUserRolesByUserID" parameterType="Integer"
+		resultMap="userRoleResultMap">
+		SELECT user_role_id, userid, role
+		FROM soundxp.user_roles
+		WHERE userid = #{userid};
+	</select>
+
+	<insert id="insertUser" parameterType="com.sound.account.mybatis.model.User"
+		useGeneratedKeys="true" keyProperty="userid">
+
+		INSERT INTO
+		soundxp.users(username, password,
+		enabled)
+		VALUES (#{username},
+		#{password}, #{enabled});
+
+	</insert>
+
+	<update id="updateUser" parameterType="com.sound.account.mybatis.model.User">
+
+		UPDATE soundxp.users
+
+		<set>
+			<if test="username != null and username != '' ">username=#{username},</if>
+			<if test="password != null and password != '' ">password=#{password},</if>
+			<!-- <if test="enabled != null ">enabled=#{enabled},</if> -->
+		</set>
+
+		WHERE userid = #{userid}
+
+	</update>
+
+	<update id="forbiddenUser" parameterType="Integer">
+
+		UPDATE soundxp.users
+
+		set enabled= 0
+
+
+		WHERE userid = #{userid}
+
+	</update>
+
+	<update id="enableUser" parameterType="Integer">
+
+		UPDATE soundxp.users
+
+		set
+		enabled= 1
+
+
+		WHERE userid = #{userid}
+
+	</update>
+
+	<!-- 删除用户角色 -->
+	<delete id="deleteUserRoleByUserId" parameterType="Integer">
+
+		DELETE FROM
+		soundxp.user_roles
+		WHERE userid = #{userid}
+	</delete>
+
+	<!-- 插入用户角色 -->
+
+	<insert id="insertUserRoles" parameterType="java.util.List">
+		INSERT INTO soundxp.user_roles
+		(userid, role)
+		VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=" , ">
+			(#{item.userid},#{item.role})
+		</foreach>
+
+	</insert>
+
+	<!-- 根据用户编号及角色代码删除用户的角色 -->
+	<delete id="deleteUserRolesByUserIDAndRole" parameterType="java.util.Map">
+
+		DELETE FROM soundxp.user_roles
+
+		<where>
+
+			<if test="userid != null">
+				userid = #{userid}
+			</if>
+			<if test="roles != null">
+				and role in
+				<foreach item="role" collection="roles" open="(" separator=","
+					close=")"> #{role} </foreach>
+			</if>
+
+		</where>
+
+	</delete>
+
+
+
+
+
+
+</mapper>
